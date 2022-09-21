@@ -40,6 +40,10 @@
             this.ID = new System.Windows.Forms.ColumnHeader();
             this.Term = new System.Windows.Forms.ColumnHeader();
             this.Definition = new System.Windows.Forms.ColumnHeader();
+            this.lblSCTags = new System.Windows.Forms.Label();
+            this.cmbbxSCT1 = new System.Windows.Forms.ComboBox();
+            this.cmbbxSCT3 = new System.Windows.Forms.ComboBox();
+            this.cmbbxSCT2 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // lblSCName
@@ -76,7 +80,7 @@
             // 
             // btnSCNext
             // 
-            this.btnSCNext.Location = new System.Drawing.Point(12, 612);
+            this.btnSCNext.Location = new System.Drawing.Point(12, 66);
             this.btnSCNext.Name = "btnSCNext";
             this.btnSCNext.Size = new System.Drawing.Size(481, 29);
             this.btnSCNext.TabIndex = 4;
@@ -137,11 +141,48 @@
             this.Definition.Text = "Definition";
             this.Definition.Width = 215;
             // 
+            // lblSCTags
+            // 
+            this.lblSCTags.AutoSize = true;
+            this.lblSCTags.Location = new System.Drawing.Point(12, 9);
+            this.lblSCTags.Name = "lblSCTags";
+            this.lblSCTags.Size = new System.Drawing.Size(41, 20);
+            this.lblSCTags.TabIndex = 11;
+            this.lblSCTags.Text = "Tags:";
+            // 
+            // cmbbxSCT1
+            // 
+            this.cmbbxSCT1.FormattingEnabled = true;
+            this.cmbbxSCT1.Location = new System.Drawing.Point(11, 32);
+            this.cmbbxSCT1.Name = "cmbbxSCT1";
+            this.cmbbxSCT1.Size = new System.Drawing.Size(151, 28);
+            this.cmbbxSCT1.TabIndex = 21;
+            // 
+            // cmbbxSCT3
+            // 
+            this.cmbbxSCT3.FormattingEnabled = true;
+            this.cmbbxSCT3.Location = new System.Drawing.Point(341, 32);
+            this.cmbbxSCT3.Name = "cmbbxSCT3";
+            this.cmbbxSCT3.Size = new System.Drawing.Size(151, 28);
+            this.cmbbxSCT3.TabIndex = 22;
+            // 
+            // cmbbxSCT2
+            // 
+            this.cmbbxSCT2.FormattingEnabled = true;
+            this.cmbbxSCT2.Location = new System.Drawing.Point(176, 32);
+            this.cmbbxSCT2.Name = "cmbbxSCT2";
+            this.cmbbxSCT2.Size = new System.Drawing.Size(151, 28);
+            this.cmbbxSCT2.TabIndex = 23;
+            // 
             // Set_Creator_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(505, 653);
+            this.ClientSize = new System.Drawing.Size(505, 104);
+            this.Controls.Add(this.cmbbxSCT2);
+            this.Controls.Add(this.cmbbxSCT3);
+            this.Controls.Add(this.cmbbxSCT1);
+            this.Controls.Add(this.lblSCTags);
             this.Controls.Add(this.lstVCards);
             this.Controls.Add(this.btnSCSearch);
             this.Controls.Add(this.txtbxSCSearch);
@@ -172,5 +213,9 @@
         private ColumnHeader ID;
         private ColumnHeader Term;
         private ColumnHeader Definition;
+        private Label lblSCTags;
+        private ComboBox cmbbxSCT1;
+        private ComboBox cmbbxSCT3;
+        private ComboBox cmbbxSCT2;
     }
 }

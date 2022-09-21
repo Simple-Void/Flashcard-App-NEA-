@@ -46,14 +46,16 @@ namespace NEA_Project_UI
         public string name;
         public string resources;
         public int[] cards;
+        public int[] tags;
 
         //object creator
         //reference to make a set
-        public Set(int ID, string name, string resources, int[] cards)
+        public Set(int ID, string name, string resources,int[] tags , int[] cards)
         {
             this.ID = ID;
             this.name = name;
             this.resources = resources;
+            this.tags = tags;
             this.cards = cards;
         }
     }

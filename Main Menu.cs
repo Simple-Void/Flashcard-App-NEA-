@@ -199,6 +199,7 @@ namespace NEA_Project_UI
             int ID = 0;
             string name = "";
             string resources = "";
+            int[] tags = new int[3];
             List<int> cards = new List<int>();
 
             //loops through all the lines in the array
@@ -225,6 +226,18 @@ namespace NEA_Project_UI
                                 //resources
                                 resources = currentString;
                                 break;
+                            case 3:
+                                //tag 1
+                                tags[0] = int.Parse(currentString);
+                                break;
+                            case 4:
+                                //tag 2
+                                tags[1] = int.Parse(currentString);
+                                break;
+                            case 5:
+                                //tag 3
+                                tags[2] = int.Parse(currentString);
+                                break;
                             default:
                                 //add the card ID to the list, if it's the last term the code below will
                                 //trigger and finish this
@@ -235,7 +248,7 @@ namespace NEA_Project_UI
                                 {
                                     //convert the list we have been using into an array
                                     int[] cardsInsert = cards.ToArray();
-                                    Set CurrentlyAddingSet = new Set(ID, name, resources, cardsInsert);
+                                    Set CurrentlyAddingSet = new Set(ID, name, resources, tags, cardsInsert);
                                     //actually add to the dictionary
                                     SetsDictionary.Add(CurrentlyAddingSet.ID, CurrentlyAddingSet);
                                     //clears the cards to ensure it doesn't add too many
@@ -254,28 +267,37 @@ namespace NEA_Project_UI
             }
         }
 
-        //in progress
+        //fully functional
         public void displayAllSets()
         {
+            //clears the existing data to ensure no duplicates
+            lstvwSets.Items.Clear();
+            //gets the total count of the sets to ensure it doesn't overflow from
+            //the hashtable
             int totalSets = SetsDictionary.Count;
             for (int i = 0; i < totalSets; i++)
             {
+                //loops through all the data, gives relevant information to an array then sets the array to display as a line
+                //I can manually assign each column for each line but this was is easier to read and more robust if I rename things
                 string[] rowData = {(SetsDictionary[i].ID).ToString(), SetsDictionary[i].name, SetsDictionary[i].resources};
                 var lstvwItem = new ListViewItem(rowData);
                 lstvwSets.Items.Add(lstvwItem);
             }
         }
 
+        //fully functional
         private void lstvwSets_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //clears the existing data to ensure no duplicates
             lstvwCards.Items.Clear();
-            //gets the ID of the selected item and
-            //makes the cards array from this set into a local array
+            //makes all the cardIDs stored in the set into a local array to reference
             int[] cardsInSet = SetsDictionary[lstvwSets.FocusedItem.Index].cards;
-            //gets the total number of cards in that set to know how many times to add
+            //gets the total number of cards in that set to know how many times to loop
             int totalCardsInSet = cardsInSet.Length;
             for (int c = 0; c < totalCardsInSet; c++)
             {
+                //loops through for all cards in set, adding the information for the **CARD ID IN THE LOCAL ARRAY WITH THE INDEX OF THE LOOP COUNT**
+                //again, assigns to an array before assigning as a row in the listview
                 string[] rowData = { (CardsDictionary[cardsInSet[c]].ID).ToString(), CardsDictionary[cardsInSet[c]].term, CardsDictionary[cardsInSet[c]].definition};
                 var lstvwItem = new ListViewItem(rowData);
                 lstvwCards.Items.Add(lstvwItem);

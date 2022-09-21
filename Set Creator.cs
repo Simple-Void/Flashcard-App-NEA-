@@ -17,19 +17,22 @@ namespace NEA_Project_UI
         int setCreationStage = 0;
 
         //UI panel heights at different stages
-        int[] panelHeight = new int[2];
+        int[] panelHeight = new int[3];
         //next button position at different stages
-        int[] nextPosition = new int[2];
+        int[] nextPosition = new int[3];
         public Set_Creator_UI(Dictionary<int, Set> _setsDictionary, Dictionary<int, Flashcard> _cardsDictionary)
         {
             SetsDictionary = _setsDictionary;
             FlashcardsDictionary = _cardsDictionary;
             InitializeComponent();
+            populateTags();
             panelHeight[0] = 202;
             panelHeight[1] = 700;
+            panelHeight[2] = 151;
 
             nextPosition[0] = 118;
             nextPosition[1] = 612;
+            nextPosition[2] = 66;
 
 
             //set UI to defaults
@@ -38,6 +41,10 @@ namespace NEA_Project_UI
             txtbxSCSearch.Hide();
             btnSCSearch.Hide();
             lstVCards.Hide();
+            lblSCTags.Hide();
+            cmbbxSCT1.Hide();
+            cmbbxSCT2.Hide();
+            cmbbxSCT3.Hide();
 
             //setup
             lblSCName.Show();
@@ -52,12 +59,12 @@ namespace NEA_Project_UI
         private void btnSCNext_Click(object sender, EventArgs e)
         {
             setCreationStage++;
-            if (setCreationStage == 1)
+            if (setCreationStage == 2)
             {
                 btnSCNext.Text = "CREATE SET";
             }
 
-            if (setCreationStage > 1)
+            if (setCreationStage > 2)
             {
                 //make the object and write to array & file
                 createSet();
@@ -79,7 +86,22 @@ namespace NEA_Project_UI
                 lstVCards.Show();
             }
 
-            if (setCreationStage < 2)
+            if (setCreationStage ==2)
+            {
+                //hide old UI
+                lblSCCards.Hide();
+                txtbxSCSearch.Hide();
+                btnSCSearch.Hide();
+                lstVCards.Hide();
+
+                //reveal new
+                lblSCTags.Show();
+                cmbbxSCT1.Show();
+                cmbbxSCT2.Show();
+                cmbbxSCT3.Show();
+            }
+
+            if (setCreationStage < 3)
             {
                 //resize etc
                 Point nextButtonLocation = new Point(12, (nextPosition[setCreationStage]));
@@ -98,9 +120,11 @@ namespace NEA_Project_UI
             //write the string params to usable vars in the object
             string name = setParameters[0];
             string resources = setParameters[1];
+            //get the tags array
+            int[] tags = inpSetTags();
 
             //create the set object
-            Set CurrentlyAddingSet = new Set(SetID, name, resources, cardsSelection);
+            Set CurrentlyAddingSet = new Set(SetID, name, resources,tags , cardsSelection);
             //add this card to the hashtable
             //I am safe to override the flashcard object here as the dictionary effectively stores a snapshot
             SetsDictionary.Add(CurrentlyAddingSet.ID, CurrentlyAddingSet);
@@ -173,11 +197,29 @@ namespace NEA_Project_UI
         //placeholder values
         public int[] inpCardsSelection()
         {
-            int[] result = new int[2];
+            int[] result = new int[4];
+            result[0] = 0;
+            result[1] = 1;
+            result[2] = 2;
+            result[3] = 3;
             return result;
         }
 
         //fully functional
+        public int[] inpSetTags()
+        {
+            int[] returnValues = new int[3];
+
+            //gets the index of the selectors
+            //this is much simpler than my pseudocode
+            returnValues[0] = cmbbxSCT1.SelectedIndex;
+            returnValues[1] = cmbbxSCT2.SelectedIndex;
+            returnValues[2] = cmbbxSCT3.SelectedIndex;
+
+            return returnValues;
+        }
+
+        //adapt for tags
         public async Task appendSetToFile(int SetIDToAppend)
         {
             //set the address to a constant to make it a bit easier to edit :)
@@ -188,7 +230,8 @@ namespace NEA_Project_UI
             //formats the data appropriately for the file
             //create a flashcard object with the data temporarily
             Set tempSet = SetsDictionary[SetIDToAppend];
-            string textToWrite = (tempSet.ID).ToString() + "#~#" + (tempSet.name) + "#~#" + (tempSet.resources);
+            string textToWrite = (tempSet.ID).ToString() + "#~#" + (tempSet.name) + "#~#" + (tempSet.resources)
+                + "#~#" + (tempSet.tags[0]) + "#~#" + (tempSet.tags[1]) + "#~#" + (tempSet.tags[2]);
             //loop adding the cards until it reaches the end of the cards array
             int noOfCardsToAdd = tempSet.cards.Length;
             for (int c = 0; c < noOfCardsToAdd; c++)
@@ -200,6 +243,36 @@ namespace NEA_Project_UI
             textToWrite = textToWrite + "~#~";
             //appends the given value to the file
             await file.WriteLineAsync(textToWrite);
+        }
+
+
+        //setup the comboboxes
+        public string[] tagsArray;
+        //fully functional
+        public void populateTags()
+        {
+            //reads in all the tags as lines of an array
+            string fileAddress = @"C:\Users\Public\FlashcardAppData\Tags.txt";
+            tagsArray = System.IO.File.ReadAllLines(fileAddress);
+            int totalTags = tagsArray.Length;
+
+            cmbbxSCT1.Items.Clear();
+            for (int c = 0; c < totalTags; c++)
+            {
+                cmbbxSCT1.Items.Add(tagsArray[c]);
+            }
+
+            cmbbxSCT2.Items.Clear();
+            for (int c = 0; c < totalTags; c++)
+            {
+                cmbbxSCT2.Items.Add(tagsArray[c]);
+            }
+
+            cmbbxSCT3.Items.Clear();
+            for (int c = 0; c < totalTags; c++)
+            {
+                cmbbxSCT3.Items.Add(tagsArray[c]);
+            }
         }
     }
 }

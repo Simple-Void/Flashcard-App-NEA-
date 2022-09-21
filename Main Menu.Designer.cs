@@ -169,6 +169,7 @@
             this.CardID,
             this.CardTerm,
             this.CardDefinition});
+            this.lstvwCards.FullRowSelect = true;
             this.lstvwCards.Location = new System.Drawing.Point(370, 12);
             this.lstvwCards.Name = "lstvwCards";
             this.lstvwCards.Size = new System.Drawing.Size(320, 631);
