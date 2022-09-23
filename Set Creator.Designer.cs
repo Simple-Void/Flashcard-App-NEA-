@@ -119,6 +119,7 @@
             this.ID,
             this.Term,
             this.Definition});
+            this.lstVCards.FullRowSelect = true;
             this.lstVCards.Location = new System.Drawing.Point(12, 65);
             this.lstVCards.Name = "lstVCards";
             this.lstVCards.Size = new System.Drawing.Size(481, 541);

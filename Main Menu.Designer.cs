@@ -141,6 +141,7 @@
             this.Resources});
             this.lstvwSets.FullRowSelect = true;
             this.lstvwSets.Location = new System.Drawing.Point(9, 45);
+            this.lstvwSets.MultiSelect = false;
             this.lstvwSets.Name = "lstvwSets";
             this.lstvwSets.Size = new System.Drawing.Size(320, 596);
             this.lstvwSets.TabIndex = 11;
@@ -171,6 +172,7 @@
             this.CardDefinition});
             this.lstvwCards.FullRowSelect = true;
             this.lstvwCards.Location = new System.Drawing.Point(370, 12);
+            this.lstvwCards.MultiSelect = false;
             this.lstvwCards.Name = "lstvwCards";
             this.lstvwCards.Size = new System.Drawing.Size(320, 631);
             this.lstvwCards.TabIndex = 12;

@@ -26,6 +26,7 @@ namespace NEA_Project_UI
             FlashcardsDictionary = _cardsDictionary;
             InitializeComponent();
             populateTags();
+            displayCardsInUI();
             panelHeight[0] = 202;
             panelHeight[1] = 700;
             panelHeight[2] = 151;
@@ -136,6 +137,16 @@ namespace NEA_Project_UI
         public void displayCardsInUI()
         {
             //this needs to go through all the cards and write them to the panel to pick from
+            //gets the number so as not to overrun
+            int cardsCount = FlashcardsDictionary.Count;
+            for (int i = 0; i < cardsCount; i++)
+            {
+                //loops through for all cards in set, adding the information for the **CARD ID IN THE LOCAL ARRAY WITH THE INDEX OF THE LOOP COUNT**
+                //again, assigns to an array before assigning as a row in the listview
+                string[] rowData = { (FlashcardsDictionary[i].ID).ToString(), FlashcardsDictionary[i].term, FlashcardsDictionary[i].definition };
+                var lstvwItem = new ListViewItem(rowData);
+                lstVCards.Items.Add(lstvwItem);
+            }
         }
 
         //fully functional
