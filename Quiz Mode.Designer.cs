@@ -34,6 +34,8 @@
             this.btnQMQuit = new System.Windows.Forms.Button();
             this.lblQMCardCount = new System.Windows.Forms.Label();
             this.countUpComponent = new System.Windows.Forms.Timer(this.components);
+            this.btnQMRight = new System.Windows.Forms.Button();
+            this.btnQMWrong = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnQMFlashCard
@@ -57,7 +59,7 @@
             // 
             // btnQMQuit
             // 
-            this.btnQMQuit.Location = new System.Drawing.Point(648, 339);
+            this.btnQMQuit.Location = new System.Drawing.Point(648, 374);
             this.btnQMQuit.Name = "btnQMQuit";
             this.btnQMQuit.Size = new System.Drawing.Size(140, 93);
             this.btnQMQuit.TabIndex = 3;
@@ -78,11 +80,33 @@
             // 
             this.countUpComponent.Tick += new System.EventHandler(this.countUpComponent_Tick);
             // 
+            // btnQMRight
+            // 
+            this.btnQMRight.Location = new System.Drawing.Point(12, 438);
+            this.btnQMRight.Name = "btnQMRight";
+            this.btnQMRight.Size = new System.Drawing.Size(303, 29);
+            this.btnQMRight.TabIndex = 6;
+            this.btnQMRight.Text = "I got it right";
+            this.btnQMRight.UseVisualStyleBackColor = true;
+            this.btnQMRight.Click += new System.EventHandler(this.btnQMRight_Click);
+            // 
+            // btnQMWrong
+            // 
+            this.btnQMWrong.Location = new System.Drawing.Point(339, 438);
+            this.btnQMWrong.Name = "btnQMWrong";
+            this.btnQMWrong.Size = new System.Drawing.Size(303, 29);
+            this.btnQMWrong.TabIndex = 7;
+            this.btnQMWrong.Text = "I got it wrong";
+            this.btnQMWrong.UseVisualStyleBackColor = true;
+            this.btnQMWrong.Click += new System.EventHandler(this.btnQMWrong_Click);
+            // 
             // Quiz_Mode_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 444);
+            this.ClientSize = new System.Drawing.Size(800, 475);
+            this.Controls.Add(this.btnQMWrong);
+            this.Controls.Add(this.btnQMRight);
             this.Controls.Add(this.lblQMCardCount);
             this.Controls.Add(this.lblQMTimer);
             this.Controls.Add(this.btnQMQuit);
@@ -100,5 +124,7 @@
         private Button btnQMQuit;
         private Label lblQMCardCount;
         private System.Windows.Forms.Timer countUpComponent;
+        private Button btnQMRight;
+        private Button btnQMWrong;
     }
 }

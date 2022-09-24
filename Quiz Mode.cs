@@ -12,57 +12,72 @@ namespace NEA_Project_UI
 {
     public partial class Quiz_Mode_UI : Form
     {
-        bool flashcardData = true;
-        int totalCards = 25;
-        int currentCard = 1;
+        //variables to store for the card data to display
+        static Set selectedSet;
+        static Dictionary<int, Flashcard> FlashcardsDictionary = new Dictionary<int, Flashcard>();
+        string cardTerm = "Term";
+        string cardDefinition = "Definition";
+        int totalCards;
+        int cardIndex = -1;
+
+        bool flashcardShowTerm = false;
         int totalTimeInSecs = (60 * 3);
-        public Quiz_Mode_UI()
+        public Quiz_Mode_UI(Set setToUse, Dictionary<int, Flashcard> _cardsDictionary)
         {
+            //import the flashcard
+            FlashcardsDictionary = _cardsDictionary;
+            //import the set to use
+            selectedSet = setToUse;
+            //set the max cards to the number of cards in the set to avoid overflow
+            totalCards = selectedSet.cards.Count();
+
             InitializeComponent();
+            nextCard();
             countUpComponent.Interval = 1000;
             countUpComponent.Tick += countUpComponent_Tick;
             //sets the flashcard to default value
-            btnQMFlashCard.Text = "Term";
+            btnQMFlashCard.Text = cardTerm;
             //sets the card count to default value
-            lblQMCardCount.Text = $"CARD {currentCard}/{totalCards}";
+            lblQMCardCount.Text = $"CARD {cardIndex+1}/{totalCards}";
             //sets the timer text to 3:00
             lblQMTimer.Text = "3:00";
             //starts timer
             countUpComponent.Start();
         }
 
+        //fully functional
         private void btnQMQuit_Click(object sender, EventArgs e)
         {
             //closes the current window
             this.Close();
         }
 
+        //offloads functionality
         private void btnQMFlashCard_Click(object sender, EventArgs e)
         {
-            //some very rough text switching as proof of concept
-            if (flashcardData == true)
-            {
-                flashcardData = false;
-                btnQMFlashCard.Text = "Definition";
-                //need a prompt for correct or incorrect
-            }
-            else
-            {
-                flashcardData = true;
-                btnQMFlashCard.Text = "Term";
-            }
+            //offloads functionality to another sub for proper refresh
+            flipCard();
+        }
 
-            //increment cards
-            currentCard++;
-            if (currentCard == totalCards)
+        //needs rewrite for card edit too
+        private void flipCard()
+        {
+            if (flashcardShowTerm == true)
             {
-                this.Close();
+                //is showing the term, swap to def
+                btnQMFlashCard.Text = cardTerm;
+                //swap the bool val
+                flashcardShowTerm = false;
             } else
             {
-                lblQMCardCount.Text = $"CARD {currentCard}/{totalCards}";
+                //is showing the def, swap to term
+                btnQMFlashCard.Text = cardDefinition;
+                //swap the bool val
+                flashcardShowTerm = true;
             }
         }
 
+        //fully functional
         private void countUpComponent_Tick(object sender, EventArgs e)
         {
             //ticks down the total seconds remaining
@@ -118,6 +133,59 @@ namespace NEA_Project_UI
                 }
                 lblQMTimer.Text = $"{timerTextMins}:{timerTextSecs}";
             }
+        }
+
+        //a separate section to increment the cards to allow a reference to it at the start
+        //works
+        private void nextCard()
+        {
+            if (cardIndex == totalCards-1)
+            {
+                //set is over, go home
+                this.Close();
+            } else
+            {
+                cardIndex++;
+                cardTerm = FlashcardsDictionary[selectedSet.cards[cardIndex]].term;
+                cardDefinition = FlashcardsDictionary[selectedSet.cards[cardIndex]].definition;
+                lblQMCardCount.Text = $"CARD {cardIndex+1}/{totalCards}";
+                flashcardShowTerm = true;
+                flipCard();
+            }
+        }
+
+        //fully functional
+        private void editSucRate(bool correct, int cardID)
+        {
+            //creates a temporary item
+            Flashcard tempFlashcard = FlashcardsDictionary[cardID];
+            //if it was correct increment the correct attempts too
+            if (correct == true)
+            {
+                tempFlashcard.successRate[0]++;
+            }
+            //regardless of correct or not another attempt has been made and total attempts increases
+            tempFlashcard.successRate[1]++;
+            //writes back to the dictionary
+            FlashcardsDictionary[cardID] = tempFlashcard;
+        }
+
+        //offloads funtionality
+        //got it right, changes card success rate data and then flips the card
+        private void btnQMRight_Click(object sender, EventArgs e)
+        {
+            editSucRate(true, selectedSet.cards[cardIndex]);
+            //uses a separate function as the card must be indexed at the start of the set
+            nextCard();
+        }
+
+        //offloads functionality
+        //got it wrong, changes card success rate data and then flips the card
+        private void btnQMWrong_Click(object sender, EventArgs e)
+        {
+            editSucRate(false, selectedSet.cards[cardIndex]);
+            //uses a separate function as the card must be indexed at the start of the set
+            nextCard();
         }
     }
 }

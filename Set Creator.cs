@@ -112,6 +112,7 @@ namespace NEA_Project_UI
             }
         }
 
+        //fully functional
         public void createSet()
         {
             //run required procedures for set information
@@ -133,7 +134,7 @@ namespace NEA_Project_UI
             appendSetToFile(CurrentlyAddingSet.ID);
         }
 
-        //no worky
+        //fully functional
         public void displayCardsInUI()
         {
             //this needs to go through all the cards and write them to the panel to pick from
@@ -208,12 +209,17 @@ namespace NEA_Project_UI
         //placeholder values
         public int[] inpCardsSelection()
         {
-            int[] result = new int[4];
-            result[0] = 0;
-            result[1] = 1;
-            result[2] = 2;
-            result[3] = 3;
-            return result;
+            //gets the data from the listview in the format it wants to export it
+            //there was a far easier way to do this with the single selectable listviews but oh well
+            ListView.SelectedIndexCollection indexes = lstVCards.SelectedIndices;
+            //writes this information to a list in the format *I* want
+            var returnVals = new List<int>();
+            foreach(ListViewItem Item in lstVCards.SelectedItems)
+            {
+                returnVals.Add(int.Parse(Item.Text));
+            }
+            int[] returnArray = returnVals.ToArray();
+            return returnArray;
         }
 
         //fully functional
@@ -230,7 +236,7 @@ namespace NEA_Project_UI
             return returnValues;
         }
 
-        //adapt for tags
+        //fully functional
         public async Task appendSetToFile(int SetIDToAppend)
         {
             //set the address to a constant to make it a bit easier to edit :)
@@ -255,7 +261,6 @@ namespace NEA_Project_UI
             //appends the given value to the file
             await file.WriteLineAsync(textToWrite);
         }
-
 
         //setup the comboboxes
         public string[] tagsArray;

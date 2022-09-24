@@ -47,9 +47,16 @@ namespace NEA_Project_UI
 
         private void btnQuiz_Click(object sender, EventArgs e)
         {
-            //create and show the quiz mode UI
-            Quiz_Mode_UI newQMUI = new Quiz_Mode_UI();
-            newQMUI.Show();
+            //if there is no selected set show an integrated error
+            if (lstvwSets.SelectedItems.Count > 0)
+            {
+                //create and show the quiz mode UI
+                Quiz_Mode_UI newQMUI = new Quiz_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary);
+                newQMUI.Show();
+            } else
+            {
+                MessageBox.Show("No set is selected, please select a set to quiz yourself on.");
+            }
         }
 
         private void btnTest_Click(object sender, EventArgs e)
@@ -76,21 +83,22 @@ namespace NEA_Project_UI
             string currentString = "";
             int writeToObjectStage = 0;
 
-            //values for creating flashcard
-            //these have to have a default value or it won't compile
-            int ID = 0;
-            string term = "";
-            string definition = "";
-            string pictureLocation = "";
-            string[] questions = new string[3];
-            string[] falseAnswers = new string[5];
-            int[] tags = new int[3];
-            int[] successRate = new int[2];
-
             //loops through all the lines in the array
             //the -1 on the length is to stop it reading the blank line for insertion and crashing
             for (int c = 0; c <= flashcardsAsLines.Length - 1; c++)
             {
+                //values for creating flashcard
+                //these have to have a default value or it won't compile
+                int ID = 0;
+                string term = "";
+                string definition = "";
+                string pictureLocation = "";
+                string[] questions = new string[3];
+                string[] falseAnswers = new string[5];
+                int[] tags = new int[3];
+                int[] successRate = new int[2];
+                //I have to recreate these each loop or my objects break, nice (not nice)
+
                 //loops through all the characters in the line
                 for (int i = 0; i < flashcardsAsLines[c].Length - 3; i++)
                 {
@@ -291,16 +299,20 @@ namespace NEA_Project_UI
             //clears the existing data to ensure no duplicates
             lstvwCards.Items.Clear();
             //makes all the cardIDs stored in the set into a local array to reference
-            int[] cardsInSet = SetsDictionary[lstvwSets.FocusedItem.Index].cards;
-            //gets the total number of cards in that set to know how many times to loop
-            int totalCardsInSet = cardsInSet.Length;
-            for (int c = 0; c < totalCardsInSet; c++)
+            int[] cardsInSet = null;
+            if (lstvwSets.SelectedItems.Count > 0)
             {
-                //loops through for all cards in set, adding the information for the **CARD ID IN THE LOCAL ARRAY WITH THE INDEX OF THE LOOP COUNT**
-                //again, assigns to an array before assigning as a row in the listview
-                string[] rowData = { (CardsDictionary[cardsInSet[c]].ID).ToString(), CardsDictionary[cardsInSet[c]].term, CardsDictionary[cardsInSet[c]].definition};
-                var lstvwItem = new ListViewItem(rowData);
-                lstvwCards.Items.Add(lstvwItem);
+                cardsInSet = SetsDictionary[lstvwSets.FocusedItem.Index].cards;
+                //gets the total number of cards in that set to know how many times to loop
+                int totalCardsInSet = cardsInSet.Length;
+                for (int c = 0; c < totalCardsInSet; c++)
+                {
+                    //loops through for all cards in set, adding the information for the **CARD ID IN THE LOCAL ARRAY WITH THE INDEX OF THE LOOP COUNT**
+                    //again, assigns to an array before assigning as a row in the listview
+                    string[] rowData = { (CardsDictionary[cardsInSet[c]].ID).ToString(), CardsDictionary[cardsInSet[c]].term, CardsDictionary[cardsInSet[c]].definition};
+                    var lstvwItem = new ListViewItem(rowData);
+                    lstvwCards.Items.Add(lstvwItem);
+                }
             }
         }
     }
