@@ -142,6 +142,7 @@ namespace NEA_Project_UI
             if (cardIndex == totalCards-1)
             {
                 //set is over, go home
+                MessageBox.Show("You completed the set!", "Congratulations!");
                 this.Close();
             } else
             {

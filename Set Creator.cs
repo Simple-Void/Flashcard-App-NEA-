@@ -184,14 +184,12 @@ namespace NEA_Project_UI
                     {
                         //ID not found and end of flashcards so value is free
                         //ID not in use
-                        MessageBox.Show($"valid {Check}");
                         Valid = true;
                         break;
                     }
                 }
             } while (Valid == false);
             //return the valid ID
-            MessageBox.Show($"Found {Check}");
             return Check;
         }
 
