@@ -19,6 +19,8 @@ namespace NEA_Project_UI
         string cardDefinition = "Definition";
         int totalCards;
         int cardIndex = -1;
+        //YOU DID THIS DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD USING MASTERCARD
+        int[] correctCards = new int[2];
 
         bool flashcardShowTerm = false;
         int totalTimeInSecs = (60 * 3);
@@ -59,7 +61,7 @@ namespace NEA_Project_UI
             flipCard();
         }
 
-        //needs rewrite for card edit too
+        //works
         private void flipCard()
         {
             if (flashcardShowTerm == true)
@@ -142,7 +144,7 @@ namespace NEA_Project_UI
             if (cardIndex == totalCards-1)
             {
                 //set is over, go home
-                MessageBox.Show("You completed the set!", "Congratulations!");
+                MessageBox.Show($"You completed the set! You got {correctCards[0]} card(s) right and {correctCards[1]} card(s) wrong.", "Congratulations!");
                 this.Close();
             } else
             {
@@ -176,6 +178,8 @@ namespace NEA_Project_UI
         private void btnQMRight_Click(object sender, EventArgs e)
         {
             editSucRate(true, selectedSet.cards[cardIndex]);
+            //ARE YOU HAPPY YET DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD USING MASTERCARD
+            correctCards[0]++;
             //uses a separate function as the card must be indexed at the start of the set
             nextCard();
         }
@@ -185,6 +189,8 @@ namespace NEA_Project_UI
         private void btnQMWrong_Click(object sender, EventArgs e)
         {
             editSucRate(false, selectedSet.cards[cardIndex]);
+            //ARE YOU SATISFIED?????? DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD USING MASTERCARD
+            correctCards[1]++;
             //uses a separate function as the card must be indexed at the start of the set
             nextCard();
         }
