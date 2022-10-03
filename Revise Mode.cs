@@ -12,19 +12,54 @@ namespace NEA_Project_UI
 {
     public partial class Revise_Mode_UI : Form
     {
+        //variables to store for the card data to display
+        static Set selectedSet;
+        static Dictionary<int, Flashcard> FlashcardsDictionary = new Dictionary<int, Flashcard>();
+        string cardTerm = "Term";
+        string cardDefinition = "Definition";
+        int totalCards;
+        bool flashcardShowTerm = false;
+        Queue<int> cardIDs = new Queue<int>();
+
         bool flashcardData = true;
+        bool enableTimer = false;
         int totalTimeInSecs = (60*3);
-        public Revise_Mode_UI()
+        public Revise_Mode_UI(Set setToUse, Dictionary<int, Flashcard> _cardsDictionary, bool enableTimer)
         {
+            selectedSet = setToUse;
+            FlashcardsDictionary = _cardsDictionary;
+            //set the max cards to the number of cards in the set to avoid overflow
+            totalCards = selectedSet.cards.Count();
+            //set up the queue for the card IDs
+            for (int c = 0; c < totalCards; c++)
+            {
+                cardIDs.Enqueue(selectedSet.cards[c]);
+            }
             InitializeComponent();
-            countUpComponent.Interval = 1000;
-            countUpComponent.Tick += countUpComponent_Tick;
-            //sets the flashcard to default value
-            btnRMFlashCard.Text = "Term";
-            //sets the timer text to 3:00
-            lblRMTimer.Text = "3:00";
-            //starts timer
-            countUpComponent.Start();
+
+            //is the timer enabled?
+            if (enableTimer == true)
+            {
+                //enable the timer
+                countUpComponent.Enabled = false;
+                //set up the component data
+                countUpComponent.Interval = 1000;
+                countUpComponent.Tick += countUpComponent_Tick;
+                //sets the timer text to 3:00
+                lblRMTimer.Text = "3:00";
+                //starts timer
+                countUpComponent.Start();
+            }
+            else
+            {
+                //set text to nothing so it doesn't look out of place
+                lblRMTimer.Text = "";
+                //disable the timer
+                countUpComponent.Enabled = false;
+            }
+            nextCard();
+            flashcardShowTerm = true;
+            flipCard();
         }
 
         private void btnRMQuit_Click(object sender, EventArgs e)
@@ -35,16 +70,8 @@ namespace NEA_Project_UI
 
         private void btnRMFlashCard_Click(object sender, EventArgs e)
         {
-            //some very rough text switching as proof of concept
-            if (flashcardData == true)
-            {
-                flashcardData = false;
-                btnRMFlashCard.Text = "Definition";
-            } else
-            {
-                flashcardData = true;
-                btnRMFlashCard.Text = "Term";
-            }
+            //offload functionality
+            flipCard();
         }
 
         private void countUpComponent_Tick(object sender, EventArgs e)
@@ -57,7 +84,8 @@ namespace NEA_Project_UI
                 countUpComponent.Stop();
                 MessageBox.Show("your time is up!");
                 this.Close();
-            } else
+            }
+            else
             {
                 //otherwise find minutes and seconds for display
                 int timerMinutes = (int)(totalTimeInSecs / 60);
@@ -71,11 +99,13 @@ namespace NEA_Project_UI
                 {
                     //make it 00
                     timerTextMins = "00";
-                } else if (timerMinutes < 10)
+                }
+                else if (timerMinutes < 10)
                 {
                     //put a 0 in front to make it two digits long
                     timerTextMins = $"0{timerMinutes}";
-                } else
+                }
+                else
                 {
                     //already double digits no formatting
                     timerTextMins = $"{timerMinutes}";
@@ -86,16 +116,54 @@ namespace NEA_Project_UI
                 {
                     //make it 00
                     timerTextSecs = "00";
-                } else if (timerSeconds < 10)
+                }
+                else if (timerSeconds < 10)
                 {
                     //add a 0 to make it two digits
                     timerTextSecs = $"0{timerSeconds}";
-                } else
+                }
+                else
                 {
                     //regular text
                     timerTextSecs = $"{timerSeconds}";
                 }
                 lblRMTimer.Text = $"{timerTextMins}:{timerTextSecs}";
+            }
+        }
+
+        private void btnRMNext_Click(object sender, EventArgs e)
+        {
+            nextCard();
+        }
+
+        //a separate section to increment the cards to allow a reference to it at the start
+        //works
+        private void nextCard()
+        {
+            //takes the next item from the queue, displays and moves to back of queue
+            cardTerm = FlashcardsDictionary[cardIDs.Peek()].term;
+            cardDefinition = FlashcardsDictionary[cardIDs.Peek()].definition;
+            cardIDs.Enqueue(cardIDs.Dequeue());
+            flashcardShowTerm = true;
+            flipCard();
+        }
+
+        //works
+        private void flipCard()
+        {
+            if (flashcardShowTerm == true)
+            {
+                //is showing the term, swap to def
+                btnRMFlashCard.Text = cardTerm;
+                //swap the bool val
+                flashcardShowTerm = false;
+            }
+            else
+            {
+                //is showing the def, swap to term
+                btnRMFlashCard.Text = cardDefinition;
+                //swap the bool val
+                flashcardShowTerm = true;
             }
         }
     }

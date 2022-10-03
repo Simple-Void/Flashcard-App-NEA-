@@ -21,10 +21,12 @@ namespace NEA_Project_UI
         int cardIndex = -1;
         //YOU DID THIS DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD USING MASTERCARD
         int[] correctCards = new int[2];
+        //you did this daniel jennings :)
+        Queue<int> cardIDs = new Queue<int>();
 
         bool flashcardShowTerm = false;
         int totalTimeInSecs = (60 * 3);
-        public Quiz_Mode_UI(Set setToUse, Dictionary<int, Flashcard> _cardsDictionary)
+        public Quiz_Mode_UI(Set setToUse, Dictionary<int, Flashcard> _cardsDictionary, bool enableTimer)
         {
             //import the flashcard
             FlashcardsDictionary = _cardsDictionary;
@@ -32,19 +34,43 @@ namespace NEA_Project_UI
             selectedSet = setToUse;
             //set the max cards to the number of cards in the set to avoid overflow
             totalCards = selectedSet.cards.Count();
+            //set up the queue for the card IDs
+            for (int c = 0; c < totalCards; c++)
+            {
+                cardIDs.Enqueue(selectedSet.cards[c]);
+            }
 
             InitializeComponent();
+
+            //post initialisation setup
             nextCard();
-            countUpComponent.Interval = 1000;
-            countUpComponent.Tick += countUpComponent_Tick;
+            //is the timer enabled?
+            if (enableTimer == true)
+            {
+                //enable the timer
+                countUpComponent.Enabled = false;
+                //set up the component data
+                countUpComponent.Interval = 1000;
+                countUpComponent.Tick += countUpComponent_Tick;
+                //sets the timer text to 3:00
+                lblQMTimer.Text = "3:00";
+                //starts timer
+                countUpComponent.Start();
+            }
+            else
+            {
+                //set text to nothing so it doesn't look out of place
+                lblQMTimer.Text = "";
+                //disable the timer
+                countUpComponent.Enabled = false;
+                //also move the card count up to where the timer was
+                Point newCCLocation = new Point(648, 59);
+                lblQMCardCount.Location = newCCLocation;
+            }
             //sets the flashcard to default value
             btnQMFlashCard.Text = cardTerm;
             //sets the card count to default value
             lblQMCardCount.Text = $"CARD {cardIndex+1}/{totalCards}";
-            //sets the timer text to 3:00
-            lblQMTimer.Text = "3:00";
-            //starts timer
-            countUpComponent.Start();
         }
 
         //fully functional
@@ -141,16 +167,16 @@ namespace NEA_Project_UI
         //works
         private void nextCard()
         {
-            if (cardIndex == totalCards-1)
+            if (cardIDs.Count() <= 0)
             {
                 //set is over, go home
                 MessageBox.Show($"You completed the set! You got {correctCards[0]} card(s) right and {correctCards[1]} card(s) wrong.", "Congratulations!");
                 this.Close();
             } else
             {
-                cardIndex++;
-                cardTerm = FlashcardsDictionary[selectedSet.cards[cardIndex]].term;
-                cardDefinition = FlashcardsDictionary[selectedSet.cards[cardIndex]].definition;
+                //takes the next item from the queue cardIDs.Dequeue()
+                cardTerm = FlashcardsDictionary[cardIDs.Peek()].term;
+                cardDefinition = FlashcardsDictionary[cardIDs.Peek()].definition;
                 lblQMCardCount.Text = $"CARD {cardIndex+1}/{totalCards}";
                 flashcardShowTerm = true;
                 flipCard();
@@ -177,9 +203,13 @@ namespace NEA_Project_UI
         //got it right, changes card success rate data and then flips the card
         private void btnQMRight_Click(object sender, EventArgs e)
         {
-            editSucRate(true, selectedSet.cards[cardIndex]);
+            editSucRate(true, cardIDs.Peek());
             //ARE YOU HAPPY YET DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD USING MASTERCARD
             correctCards[0]++;
+            //increments the card count here as incorrect cards don't count toward it
+            cardIndex++;
+            //got it right the card can be removed
+            cardIDs.Dequeue();
             //uses a separate function as the card must be indexed at the start of the set
             nextCard();
         }
@@ -188,9 +218,11 @@ namespace NEA_Project_UI
         //got it wrong, changes card success rate data and then flips the card
         private void btnQMWrong_Click(object sender, EventArgs e)
         {
-            editSucRate(false, selectedSet.cards[cardIndex]);
+            editSucRate(false, cardIDs.Peek());
             //ARE YOU SATISFIED?????? DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD USING MASTERCARD
             correctCards[1]++;
+            //dequeue the card and requeue the card since it was wrong but not the next card
+            cardIDs.Enqueue(cardIDs.Dequeue());
             //uses a separate function as the card must be indexed at the start of the set
             nextCard();
         }

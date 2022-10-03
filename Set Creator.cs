@@ -67,9 +67,15 @@ namespace NEA_Project_UI
 
             if (setCreationStage > 2)
             {
-                //make the object and write to array & file
-                createSet();
-                this.Close();
+                if (cmbbxSCT1.SelectedIndex < 0 && cmbbxSCT2.SelectedIndex < 0 && cmbbxSCT3.SelectedIndex < 0)
+                {
+                    MessageBox.Show("please select all three tags");
+                } else
+                {
+                    //make the object and write to array & file
+                    createSet();
+                    this.Close();
+                }
             }
 
             if (setCreationStage == 1)
@@ -142,11 +148,14 @@ namespace NEA_Project_UI
             int cardsCount = FlashcardsDictionary.Count;
             for (int i = 0; i < cardsCount; i++)
             {
-                //loops through for all cards in set, adding the information for the **CARD ID IN THE LOCAL ARRAY WITH THE INDEX OF THE LOOP COUNT**
-                //again, assigns to an array before assigning as a row in the listview
-                string[] rowData = { (FlashcardsDictionary[i].ID).ToString(), FlashcardsDictionary[i].term, FlashcardsDictionary[i].definition };
-                var lstvwItem = new ListViewItem(rowData);
-                lstVCards.Items.Add(lstvwItem);
+                if (FlashcardsDictionary.ContainsKey(i))
+                {
+                    //loops through for all cards in set, adding the information for the **CARD ID IN THE LOCAL ARRAY WITH THE INDEX OF THE LOOP COUNT**
+                    //again, assigns to an array before assigning as a row in the listview
+                    string[] rowData = { (FlashcardsDictionary[i].ID).ToString(), FlashcardsDictionary[i].term, FlashcardsDictionary[i].definition };
+                    var lstvwItem = new ListViewItem(rowData);
+                    lstVCards.Items.Add(lstvwItem);
+                }
             }
         }
 
@@ -159,35 +168,23 @@ namespace NEA_Project_UI
             int Check = 0;
             bool Valid = false;
 
-            //leonard has not read this therefore it don't work
-            //UPDATE: leonard has read this and now it works - told you he's a great coding buddy
+
+
+            //leonard the leopard is the reason this works
             //loops until a valid value is found
             do
             {
-                //exits with the default value if there are no sets to check
-                if (TotalLength < 1)
+                if (SetsDictionary.ContainsKey(Check))
                 {
+                    //ID is taken
+                    Check++;
+                }
+                else
+                {
+                    //is free, break loop
                     Valid = true;
                 }
-                //loops through all existing flashcards
-                for (int c = 0; c < TotalLength; c++)
-                {
-                    //checks if the card has the ID it checks for
-                    if (SetsDictionary[c].ID == Check)
-                    {
-                        //the ID is in use
-                        //increment check val and break loop
-                        Check++;
-                        break;
-                    }
-                    else if (c == TotalLength - 1 && SetsDictionary[c].ID != Check)
-                    {
-                        //ID not found and end of flashcards so value is free
-                        //ID not in use
-                        Valid = true;
-                        break;
-                    }
-                }
+                //else the ID is free
             } while (Valid == false);
             //return the valid ID
             return Check;

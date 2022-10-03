@@ -45,6 +45,7 @@
             this.CardID = new System.Windows.Forms.ColumnHeader();
             this.CardTerm = new System.Windows.Forms.ColumnHeader();
             this.CardDefinition = new System.Windows.Forms.ColumnHeader();
+            this.chkbxTimerYN = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnCrtCrd
@@ -194,11 +195,22 @@
             this.CardDefinition.Text = "Definition";
             this.CardDefinition.Width = 135;
             // 
+            // chkbxTimerYN
+            // 
+            this.chkbxTimerYN.AutoSize = true;
+            this.chkbxTimerYN.Location = new System.Drawing.Point(698, 450);
+            this.chkbxTimerYN.Name = "chkbxTimerYN";
+            this.chkbxTimerYN.Size = new System.Drawing.Size(118, 24);
+            this.chkbxTimerYN.TabIndex = 13;
+            this.chkbxTimerYN.Text = "Enable Timer";
+            this.chkbxTimerYN.UseVisualStyleBackColor = true;
+            // 
             // Main_Menu_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 653);
+            this.Controls.Add(this.chkbxTimerYN);
             this.Controls.Add(this.lstvwCards);
             this.Controls.Add(this.lstvwSets);
             this.Controls.Add(this.btnMMTeacher);
@@ -236,5 +248,6 @@
         private ColumnHeader CardID;
         private ColumnHeader CardTerm;
         private ColumnHeader CardDefinition;
+        private CheckBox chkbxTimerYN;
     }
 }

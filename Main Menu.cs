@@ -40,9 +40,29 @@ namespace NEA_Project_UI
 
         private void btnRev_Click(object sender, EventArgs e)
         {
-            //create and show the revision mode UI
-            Revise_Mode_UI newRMUI = new Revise_Mode_UI();
-            newRMUI.Show();
+            //if there is no selected set show an integrated error
+            if (lstvwSets.SelectedItems.Count > 0)
+            {
+                bool useTimer = false;
+                //is the timer enabled?
+                if (chkbxTimerYN.Checked == true)
+                {
+                    //enable the timer
+                    useTimer = true;
+                }
+                else
+                {
+                    //disable the timer
+                    useTimer = false;
+                }
+                //create and show the revision mode UI
+                Revise_Mode_UI newRMUI = new Revise_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary, useTimer);
+                newRMUI.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select a set to revise");
+            }
         }
 
         private void btnQuiz_Click(object sender, EventArgs e)
@@ -50,12 +70,23 @@ namespace NEA_Project_UI
             //if there is no selected set show an integrated error
             if (lstvwSets.SelectedItems.Count > 0)
             {
+                bool useTimer = false;
+                //is the timer enabled?
+                if (chkbxTimerYN.Checked == true)
+                {
+                    //enable the timer
+                    useTimer = true;
+                } else
+                {
+                    //disable the timer
+                    useTimer = false;
+                }
                 //create and show the quiz mode UI
-                Quiz_Mode_UI newQMUI = new Quiz_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary);
+                Quiz_Mode_UI newQMUI = new Quiz_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary, useTimer);
                 newQMUI.Show();
             } else
             {
-                MessageBox.Show("No set is selected, please select a set to quiz yourself on.");
+                MessageBox.Show("Please select a set to quiz yourself on");
             }
         }
 

@@ -84,8 +84,14 @@ namespace NEA_Project_UI
 
             if (cardCreationStage > 3)
             {
-                createFlashcard();
-                this.Close();
+                if (cmbCCT1.SelectedIndex < 0 && cmbCCT2.SelectedIndex < 0 && cmbCCT3.SelectedIndex < 0)
+                {
+                    MessageBox.Show("please select all three tags");
+                } else
+                {
+                    createFlashcard();
+                    this.Close();
+                }
             }
 
             if (cardCreationStage == 1)
@@ -200,33 +206,23 @@ namespace NEA_Project_UI
             int Check = 0;
             bool Valid = false;
 
+
+
             //leonard the leopard is the reason this works
             //loops until a valid value is found
             do
             {
-                //exits with the default value if there are no sets to check
-                if (TotalLength < 1)
+                if (CardsDictionary.ContainsKey(Check))
                 {
+                    //ID is taken
+                    Check++;
+                }
+                else
+                {
+                    //is free, break loop
                     Valid = true;
                 }
-                //loops through all existing flashcards
-                for (int c = 0; c < TotalLength; c++)
-                {
-                    //checks if the card has the ID it checks for
-                    if (CardsDictionary[c].ID == Check)
-                    {
-                        //the ID is in use
-                        //increment check val and break loop
-                        Check++;
-                        break;
-                    } else if (c == TotalLength-1 && CardsDictionary[c].ID != Check)
-                    {
-                        //ID not found and end of flashcards so value is free
-                        //ID not in use
-                        Valid = true;
-                        break;
-                    }
-                }
+                //else the ID is free
             } while (Valid == false);
             //return the valid ID
             return Check;
@@ -293,9 +289,9 @@ namespace NEA_Project_UI
 
             //gets the index of the selectors
             //this is much simpler than my pseudocode
-            returnValues[0] = cmbCCT1.SelectedIndex;
-            returnValues [1] = cmbCCT2.SelectedIndex;
-            returnValues[2] = cmbCCT3.SelectedIndex;
+            returnValues[0] = 0;
+            returnValues [1] = 1;
+            returnValues[2] = 2;
 
             return returnValues;
         }
