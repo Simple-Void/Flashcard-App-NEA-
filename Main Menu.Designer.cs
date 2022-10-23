@@ -133,6 +133,7 @@
             this.btnMMTeacher.TabIndex = 10;
             this.btnMMTeacher.Text = "LOGIN AS TEACHER";
             this.btnMMTeacher.UseVisualStyleBackColor = true;
+            this.btnMMTeacher.Click += new System.EventHandler(this.btnMMTeacher_Click);
             // 
             // lstvwSets
             // 
@@ -224,6 +225,7 @@
             this.Controls.Add(this.btnCrtCrd);
             this.Name = "Main_Menu_UI";
             this.Text = "FlashCard App";
+            this.Activated += new System.EventHandler(this.Main_Menu_UI_Activated);
             this.ResumeLayout(false);
             this.PerformLayout();
 

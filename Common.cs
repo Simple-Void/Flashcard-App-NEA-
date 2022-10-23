@@ -6,6 +6,15 @@ using System.Threading.Tasks;
 
 namespace NEA_Project_UI
 {
+    static class Global
+    {
+        private static bool _teacherLoggedIn = false;
+        public static bool teacherLoggedIn
+        {
+            get { return _teacherLoggedIn; }
+            set { _teacherLoggedIn = value; }
+        }
+    }
     //create the object type of flashcard
     public class Flashcard
     {

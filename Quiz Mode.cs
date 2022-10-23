@@ -19,7 +19,7 @@ namespace NEA_Project_UI
         string cardDefinition = "Definition";
         int totalCards;
         int cardIndex = -1;
-        //YOU DID THIS DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD USING MASTERCARD
+        //YOU DID THIS DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD
         int[] correctCards = new int[2];
         //you did this daniel jennings :)
         Queue<int> cardIDs = new Queue<int>();
@@ -114,7 +114,7 @@ namespace NEA_Project_UI
             if (totalTimeInSecs < 0)
             {
                 countUpComponent.Stop();
-                MessageBox.Show("your time is up!");
+                MessageBox.Show($"Your time is up!");
                 this.Close();
             }
             else
@@ -170,7 +170,7 @@ namespace NEA_Project_UI
             if (cardIDs.Count() <= 0)
             {
                 //set is over, go home
-                MessageBox.Show($"You completed the set! You got {correctCards[0]} card(s) right and {correctCards[1]} card(s) wrong.", "Congratulations!");
+                MessageBox.Show($"You completed the set! You got {correctCards[1]} card(s) wrong to start, but you got them all in the end!", "Congratulations!");
                 this.Close();
             } else
             {

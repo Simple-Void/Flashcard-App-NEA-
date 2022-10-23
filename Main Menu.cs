@@ -13,7 +13,6 @@ namespace NEA_Project_UI
         public Main_Menu_UI()
         {
             InitializeComponent();
-            btnMMTeacher.Enabled = false;
             btnMMSearch.Enabled = false;
             //takes the flashcards into the dictionary for proper handling
             readFileToCardsDictionary();
@@ -92,9 +91,29 @@ namespace NEA_Project_UI
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            //create and show the test mode UI
-            Test_Mode_UI newTMUI = new Test_Mode_UI();
-            newTMUI.Show();
+            //if there is no selected set show an integrated error
+            if (lstvwSets.SelectedItems.Count > 0)
+            {
+                bool useTimer = false;
+                //is the timer enabled?
+                if (chkbxTimerYN.Checked == true)
+                {
+                    //enable the timer
+                    useTimer = true;
+                }
+                else
+                {
+                    //disable the timer
+                    useTimer = false;
+                }
+                //create and show the test mode UI
+                Test_Mode_UI newTMUI = new Test_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary, useTimer);
+                newTMUI.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select a set to quiz yourself on");
+            }
         }
 
         private void btnMMQuit_Click(object sender, EventArgs e)
@@ -102,7 +121,14 @@ namespace NEA_Project_UI
             //closes the current window
             this.Close();
         }
-        #endregion
+
+        private void btnMMTeacher_Click(object sender, EventArgs e)
+        {
+            //create and show the teacher login UI
+            Teacher_Login_UI newTLUI = new Teacher_Login_UI();
+            newTLUI.Show();
+        }
+        #endregion       
 
         //fully functional
         public void readFileToCardsDictionary()
@@ -116,7 +142,7 @@ namespace NEA_Project_UI
 
             //loops through all the lines in the array
             //the -1 on the length is to stop it reading the blank line for insertion and crashing
-            for (int c = 0; c <= flashcardsAsLines.Length - 1; c++)
+            for (int c = 0; c <= flashcardsAsLines.Length-1; c++)
             {
                 //values for creating flashcard
                 //these have to have a default value or it won't compile
@@ -345,6 +371,12 @@ namespace NEA_Project_UI
                     lstvwCards.Items.Add(lstvwItem);
                 }
             }
+        }
+
+        //refresh the sets on form focus
+        private void Main_Menu_UI_Activated(object sender, EventArgs e)
+        {
+            displayAllSets();
         }
     }
 }
