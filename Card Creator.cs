@@ -289,9 +289,9 @@ namespace NEA_Project_UI
 
             //gets the index of the selectors
             //this is much simpler than my pseudocode
-            returnValues[0] = 0;
-            returnValues [1] = 1;
-            returnValues[2] = 2;
+            returnValues[0] = cmbCCT1.SelectedIndex;
+            returnValues [1] = cmbCCT2.SelectedIndex;
+            returnValues[2] = cmbCCT3.SelectedIndex;
 
             return returnValues;
         }

@@ -15,6 +15,7 @@ namespace NEA_Project_UI
             set { _teacherLoggedIn = value; }
         }
     }
+
     //create the object type of flashcard
     public class Flashcard
     {

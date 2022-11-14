@@ -9,6 +9,8 @@ namespace NEA_Project_UI
         public Dictionary<int, Flashcard> CardsDictionary = new();
         //the dictionary that stores all the sets
         public Dictionary<int, Set> SetsDictionary = new();
+        //teacher login boolean
+        public bool loggedIn = false;
 
         public Main_Menu_UI()
         {
@@ -19,6 +21,7 @@ namespace NEA_Project_UI
             //write the sets and flashcards within that set to the UI elements
             readFileToSetsDictionary();
             displayAllSets();
+            showDefaultLoginStatus();
         }
 
         //private functions managing UI navigation
@@ -107,8 +110,35 @@ namespace NEA_Project_UI
                     useTimer = false;
                 }
                 //create and show the test mode UI
-                Test_Mode_UI newTMUI = new Test_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary, useTimer);
+                Test_Mode_UI newTMUI = new Test_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary, useTimer, false);
                 newTMUI.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select a set to quiz yourself on");
+            }
+        }
+
+        private void btnClassTest_Click(object sender, EventArgs e)
+        {
+            //if there is no selected set show an integrated error
+            if (lstvwSets.SelectedItems.Count > 0)
+            {
+                bool useTimer = false;
+                //is the timer enabled?
+                if (chkbxTimerYN.Checked == true)
+                {
+                    //enable the timer
+                    useTimer = true;
+                }
+                else
+                {
+                    //disable the timer
+                    useTimer = false;
+                }
+                //create and show the test mode UI
+                Test_Mode_UI newCTMUI = new Test_Mode_UI(SetsDictionary[lstvwSets.FocusedItem.Index], CardsDictionary, useTimer, true);
+                newCTMUI.Show();
             }
             else
             {
@@ -142,7 +172,7 @@ namespace NEA_Project_UI
 
             //loops through all the lines in the array
             //the -1 on the length is to stop it reading the blank line for insertion and crashing
-            for (int c = 0; c <= flashcardsAsLines.Length-1; c++)
+            for (int c = 0; c <= flashcardsAsLines.Length - 1; c++)
             {
                 //values for creating flashcard
                 //these have to have a default value or it won't compile
@@ -344,7 +374,7 @@ namespace NEA_Project_UI
             {
                 //loops through all the data, gives relevant information to an array then sets the array to display as a line
                 //I can manually assign each column for each line but this was is easier to read and more robust if I rename things
-                string[] rowData = {(SetsDictionary[i].ID).ToString(), SetsDictionary[i].name, SetsDictionary[i].resources};
+                string[] rowData = { (SetsDictionary[i].ID).ToString(), SetsDictionary[i].name, SetsDictionary[i].resources };
                 var lstvwItem = new ListViewItem(rowData);
                 lstvwSets.Items.Add(lstvwItem);
             }
@@ -366,7 +396,7 @@ namespace NEA_Project_UI
                 {
                     //loops through for all cards in set, adding the information for the **CARD ID IN THE LOCAL ARRAY WITH THE INDEX OF THE LOOP COUNT**
                     //again, assigns to an array before assigning as a row in the listview
-                    string[] rowData = { (CardsDictionary[cardsInSet[c]].ID).ToString(), CardsDictionary[cardsInSet[c]].term, CardsDictionary[cardsInSet[c]].definition};
+                    string[] rowData = { (CardsDictionary[cardsInSet[c]].ID).ToString(), CardsDictionary[cardsInSet[c]].term, CardsDictionary[cardsInSet[c]].definition };
                     var lstvwItem = new ListViewItem(rowData);
                     lstvwCards.Items.Add(lstvwItem);
                 }
@@ -377,6 +407,74 @@ namespace NEA_Project_UI
         private void Main_Menu_UI_Activated(object sender, EventArgs e)
         {
             displayAllSets();
+            if (Global.teacherLoggedIn == true)
+            {
+                showLoggedInLoginStatus();
+            } else
+            {
+                showDefaultLoginStatus();
+            }
+        }
+
+        public void showLoggedInLoginStatus()
+        {
+            Point newPosition = new Point();
+            //show log out
+            btnMMTeacher.Hide();
+            btnLogOut.Show();
+            newPosition = new Point(696, 12);
+            btnLogOut.Location = newPosition;
+            //timer toggle position
+            newPosition = new Point(696, 415);
+            chkbxTimerYN.Location = newPosition;
+            //revision position
+            newPosition = new Point(696, 445);
+            btnRev.Location = newPosition;
+            //quiz position
+            newPosition = new Point(696, 480);
+            btnQuiz.Location = newPosition;
+            //test position
+            newPosition = new Point(696, 515);
+            btnTest.Location = newPosition;
+            //class test
+            btnClassTest.Show();
+            newPosition = new Point(696, 550);
+            btnClassTest.Location = newPosition;
+            //graph
+            btnGraph.Show();
+            newPosition = new Point(696, 115);
+            btnGraph.Location = newPosition;
+        }
+
+        //works
+        public void showDefaultLoginStatus()
+        {
+            Point newPosition = new Point();
+            //show login not log out
+            btnMMTeacher.Show();
+            btnLogOut.Hide();
+            btnGraph.Hide();
+            //timer toggle position
+            newPosition = new Point(698, 450);
+            chkbxTimerYN.Location = newPosition;
+            //revision position
+            newPosition = new Point(696, 480);
+            btnRev.Location = newPosition;
+            //quiz position
+            newPosition = new Point(696, 515);
+            btnQuiz.Location = newPosition;
+            //test position
+            newPosition = new Point(696, 550);
+            btnTest.Location = newPosition;
+            //class test
+            btnClassTest.Hide();
+        }
+
+        //works
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            Global.teacherLoggedIn= false;
+            showDefaultLoginStatus();
         }
     }
 }

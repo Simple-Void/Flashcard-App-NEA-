@@ -46,6 +46,9 @@
             this.CardTerm = new System.Windows.Forms.ColumnHeader();
             this.CardDefinition = new System.Windows.Forms.ColumnHeader();
             this.chkbxTimerYN = new System.Windows.Forms.CheckBox();
+            this.btnLogOut = new System.Windows.Forms.Button();
+            this.btnClassTest = new System.Windows.Forms.Button();
+            this.btnGraph = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCrtCrd
@@ -87,7 +90,7 @@
             // 
             // btnRev
             // 
-            this.btnRev.Location = new System.Drawing.Point(696, 480);
+            this.btnRev.Location = new System.Drawing.Point(696, 445);
             this.btnRev.Name = "btnRev";
             this.btnRev.Size = new System.Drawing.Size(188, 29);
             this.btnRev.TabIndex = 6;
@@ -97,7 +100,7 @@
             // 
             // btnQuiz
             // 
-            this.btnQuiz.Location = new System.Drawing.Point(696, 515);
+            this.btnQuiz.Location = new System.Drawing.Point(696, 480);
             this.btnQuiz.Name = "btnQuiz";
             this.btnQuiz.Size = new System.Drawing.Size(188, 29);
             this.btnQuiz.TabIndex = 7;
@@ -107,7 +110,7 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(696, 550);
+            this.btnTest.Location = new System.Drawing.Point(696, 515);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(188, 29);
             this.btnTest.TabIndex = 8;
@@ -199,18 +202,50 @@
             // chkbxTimerYN
             // 
             this.chkbxTimerYN.AutoSize = true;
-            this.chkbxTimerYN.Location = new System.Drawing.Point(698, 450);
+            this.chkbxTimerYN.Location = new System.Drawing.Point(696, 415);
             this.chkbxTimerYN.Name = "chkbxTimerYN";
             this.chkbxTimerYN.Size = new System.Drawing.Size(118, 24);
             this.chkbxTimerYN.TabIndex = 13;
             this.chkbxTimerYN.Text = "Enable Timer";
             this.chkbxTimerYN.UseVisualStyleBackColor = true;
             // 
+            // btnLogOut
+            // 
+            this.btnLogOut.Location = new System.Drawing.Point(696, 12);
+            this.btnLogOut.Name = "btnLogOut";
+            this.btnLogOut.Size = new System.Drawing.Size(188, 29);
+            this.btnLogOut.TabIndex = 14;
+            this.btnLogOut.Text = "LOG OUT";
+            this.btnLogOut.UseVisualStyleBackColor = true;
+            this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click);
+            // 
+            // btnClassTest
+            // 
+            this.btnClassTest.Location = new System.Drawing.Point(696, 550);
+            this.btnClassTest.Name = "btnClassTest";
+            this.btnClassTest.Size = new System.Drawing.Size(188, 29);
+            this.btnClassTest.TabIndex = 15;
+            this.btnClassTest.Text = "CLASS TEST";
+            this.btnClassTest.UseVisualStyleBackColor = true;
+            this.btnClassTest.Click += new System.EventHandler(this.btnClassTest_Click);
+            // 
+            // btnGraph
+            // 
+            this.btnGraph.Location = new System.Drawing.Point(696, 115);
+            this.btnGraph.Name = "btnGraph";
+            this.btnGraph.Size = new System.Drawing.Size(188, 29);
+            this.btnGraph.TabIndex = 16;
+            this.btnGraph.Text = "GRAPH TESTS";
+            this.btnGraph.UseVisualStyleBackColor = true;
+            // 
             // Main_Menu_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 653);
+            this.Controls.Add(this.btnGraph);
+            this.Controls.Add(this.btnClassTest);
+            this.Controls.Add(this.btnLogOut);
             this.Controls.Add(this.chkbxTimerYN);
             this.Controls.Add(this.lstvwCards);
             this.Controls.Add(this.lstvwSets);
@@ -251,5 +286,8 @@
         private ColumnHeader CardTerm;
         private ColumnHeader CardDefinition;
         private CheckBox chkbxTimerYN;
+        private Button btnLogOut;
+        private Button btnClassTest;
+        private Button btnGraph;
     }
 }

@@ -164,7 +164,7 @@ namespace NEA_Project_UI
         }
 
         //a separate section to increment the cards to allow a reference to it at the start
-        //works
+        //fully functional
         private void nextCard()
         {
             if (cardIDs.Count() <= 0)

@@ -123,9 +123,10 @@ namespace NEA_Project_UI
                 //check the logins / login
                 if (logins.ContainsKey(txtbxUsername.Text))
                 {
-                    MessageBox.Show("Correct account details");
+                    MessageBox.Show("You are now logged in");
                     //sets the global var to true to signify the user is logged in as a teacher
                     Global.teacherLoggedIn = true;
+                    this.Close();
                 } else
                 {
                     MessageBox.Show("Invalid Login");

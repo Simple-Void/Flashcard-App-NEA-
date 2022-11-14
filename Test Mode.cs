@@ -25,10 +25,11 @@ namespace NEA_Project_UI
         Queue<int> cardIDs = new Queue<int>();
         int correctPlacement = 0;
         string textToWrite = "";
+        bool publicOrClass = false;
 
         int totalTimeInSecs = (60 * 3);
 
-        public Test_Mode_UI(Set setToUse, Dictionary<int, Flashcard> _cardsDictionary, bool enableTimer)
+        public Test_Mode_UI(Set setToUse, Dictionary<int, Flashcard> _cardsDictionary, bool enableTimer, bool _classOrPersonal)
         {
             //import the flashcard
             FlashcardsDictionary = _cardsDictionary;
@@ -43,6 +44,9 @@ namespace NEA_Project_UI
             }
 
             InitializeComponent();
+
+            //classorpersonal
+            publicOrClass = _classOrPersonal;
 
             //is the timer enabled?
             if (enableTimer == true)
@@ -77,6 +81,7 @@ namespace NEA_Project_UI
 
         private void btnTMSubmit_Click(object sender, EventArgs e)
         {
+            bool correct = false;
             int btnSelected = 0;
             //submits current selection
             if (rdbtnTMQ1.Checked == true)
@@ -96,15 +101,46 @@ namespace NEA_Project_UI
                 btnSelected = 4;
             }
 
+            //determines if the selected option is the same as the correct one
+            if (btnSelected == correctPlacement)
+            {
+                correct = true;
+                correctCards[0]++;
+            } else
+            {
+                correct = false;
+                correctCards[1]++;
+            }
+
+            //changes the correct / incorrect ratio if it's a personal test
+            if (publicOrClass == false)
+            {
+                //personal test, edit data
+                editSucRate(correct, cardIDs.Peek());
+            }
+            cardIndex++;
+            cardIDs.Dequeue();
+
             //progresses card
             nextQuestion();
         }
 
-        void editSucRate()
+        void editSucRate(bool correct, int cardID)
         {
-
+            //creates a temporary item
+            Flashcard tempFlashcard = FlashcardsDictionary[cardID];
+            //if it was correct increment the correct attempts too
+            if (correct == true)
+            {
+                tempFlashcard.successRate[0]++;
+            }
+            //regardless of correct or not another attempt has been made and total attempts increases
+            tempFlashcard.successRate[1]++;
+            //writes back to the dictionary
+            FlashcardsDictionary[cardID] = tempFlashcard;
         }
 
+        //fully functional
         public void nextQuestion()
         {
             Random rnd = new Random();
@@ -180,7 +216,6 @@ namespace NEA_Project_UI
                 }
                 //set the base question
                 lblTMQuestion.Text = cardQuestion;
-                cardIDs.Dequeue();
             }
         }
 
