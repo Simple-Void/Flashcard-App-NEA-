@@ -19,6 +19,7 @@ namespace NEA_Project_UI
         string cardDefinition = "Definition";
         int totalCards;
         int cardIndex = -1;
+        string cardImage = "";
         //YOU DID THIS DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD
         int[] correctCards = new int[2];
         //you did this daniel jennings :)
@@ -42,6 +43,9 @@ namespace NEA_Project_UI
 
             InitializeComponent();
 
+            //display the default image
+            pcbxCardPic.Image = Image.FromFile(@"D:\School Work\Computing\NEA\Default.png");
+            pcbxCardPic.SizeMode = PictureBoxSizeMode.StretchImage;
             //post initialisation setup
             nextCard();
             //is the timer enabled?
@@ -115,6 +119,7 @@ namespace NEA_Project_UI
             {
                 countUpComponent.Stop();
                 MessageBox.Show($"Your time is up!");
+                flushAllCards();
                 this.Close();
             }
             else
@@ -171,6 +176,7 @@ namespace NEA_Project_UI
             {
                 //set is over, go home
                 MessageBox.Show($"You completed the set! You got {correctCards[1]} card(s) wrong to start, but you got them all in the end!", "Congratulations!");
+                flushAllCards();
                 this.Close();
             } else
             {
@@ -179,6 +185,16 @@ namespace NEA_Project_UI
                 cardDefinition = FlashcardsDictionary[cardIDs.Peek()].definition;
                 lblQMCardCount.Text = $"CARD {cardIndex+1}/{totalCards}";
                 flashcardShowTerm = true;
+                //set card image and check if it exists before displaying
+                cardImage = FlashcardsDictionary[cardIDs.Peek()].pictureLocation;
+                if (File.Exists(cardImage))
+                {
+                    pcbxCardPic.Image = Image.FromFile(@cardImage);
+                }
+                else
+                {
+                    pcbxCardPic.Image = Image.FromFile(@"D:\School Work\Computing\NEA\Default.png");
+                }
                 flipCard();
             }
         }
@@ -212,6 +228,33 @@ namespace NEA_Project_UI
             cardIDs.Dequeue();
             //uses a separate function as the card must be indexed at the start of the set
             nextCard();
+        }
+
+        private async Task flushAllCards()
+        {
+            //set the address to a constant to make it a bit easier to edit :)
+            string fileAddress = @"C:\Users\Public\FlashcardAppData\Flashcards.txt";
+
+            //clear the file
+            File.WriteAllText(fileAddress, String.Empty);
+
+            foreach (KeyValuePair<int, Flashcard> entry in FlashcardsDictionary)
+            {
+                //create a flashcard object with the data temporarily
+                Flashcard tempFlashcard = FlashcardsDictionary[entry.Key];
+
+                //sets the file to append and states the file to append to
+                using StreamWriter file = new(fileAddress, append: true);
+                //formats the data appropriately for the file
+                string textToWrite = (tempFlashcard.ID).ToString() + "#~#" + (tempFlashcard.term) + "#~#" + (tempFlashcard.definition)
+                    + "#~#" + (tempFlashcard.pictureLocation) + "#~#" + (tempFlashcard.questions[0]) + "#~#" + (tempFlashcard.questions[1]) +
+                    "#~#" + (tempFlashcard.questions[2]) + "#~#" + (tempFlashcard.falseAnswers[0]) + "#~#" + (tempFlashcard.falseAnswers[1]) +
+                    "#~#" + (tempFlashcard.falseAnswers[2]) + "#~#" + (tempFlashcard.falseAnswers[3]) + "#~#" + (tempFlashcard.falseAnswers[4]) +
+                    "#~#" + (tempFlashcard.tags[0]) + "#~#" + (tempFlashcard.tags[1]) + "#~#" + (tempFlashcard.tags[2]) + "#~#" +
+                    (tempFlashcard.successRate[0]) + "#~#" + (tempFlashcard.successRate[1]) + "#~#";
+                //appends the given value to the file
+                await file.WriteLineAsync(textToWrite);
+            }
         }
 
         //offloads functionality

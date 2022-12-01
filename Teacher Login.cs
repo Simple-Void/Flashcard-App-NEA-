@@ -121,7 +121,7 @@ namespace NEA_Project_UI
             } else
             {
                 //check the logins / login
-                if (logins.ContainsKey(txtbxUsername.Text))
+                if (logins.ContainsKey(txtbxUsername.Text) && logins[txtbxUsername.Text]==txtbxPassword.Text)
                 {
                     MessageBox.Show("You are now logged in");
                     //sets the global var to true to signify the user is logged in as a teacher

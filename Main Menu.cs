@@ -158,6 +158,13 @@ namespace NEA_Project_UI
             Teacher_Login_UI newTLUI = new Teacher_Login_UI();
             newTLUI.Show();
         }
+
+        private void btnGraph_Click(object sender, EventArgs e)
+        {
+            //create and show the graphing UI
+            Graphing_UI newG_UI = new Graphing_UI(CardsDictionary, SetsDictionary);
+            newG_UI.Show();
+        }
         #endregion       
 
         //fully functional

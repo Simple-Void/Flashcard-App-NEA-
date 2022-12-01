@@ -33,7 +33,6 @@
             this.lblCCDefinition = new System.Windows.Forms.Label();
             this.txtbxDefinition = new System.Windows.Forms.TextBox();
             this.lblCCPicture = new System.Windows.Forms.Label();
-            this.txtbxCCPicture = new System.Windows.Forms.TextBox();
             this.btnCCNext = new System.Windows.Forms.Button();
             this.lblCCQuestions = new System.Windows.Forms.Label();
             this.lblCCQExplanation = new System.Windows.Forms.Label();
@@ -51,6 +50,7 @@
             this.cmbCCT1 = new System.Windows.Forms.ComboBox();
             this.cmbCCT2 = new System.Windows.Forms.ComboBox();
             this.cmbCCT3 = new System.Windows.Forms.ComboBox();
+            this.btnPickFile = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblCCTerm
@@ -93,14 +93,6 @@
             this.lblCCPicture.Size = new System.Drawing.Size(129, 20);
             this.lblCCPicture.TabIndex = 4;
             this.lblCCPicture.Text = "Picture (Optional):";
-            // 
-            // txtbxCCPicture
-            // 
-            this.txtbxCCPicture.Location = new System.Drawing.Point(12, 138);
-            this.txtbxCCPicture.Name = "txtbxCCPicture";
-            this.txtbxCCPicture.Size = new System.Drawing.Size(481, 27);
-            this.txtbxCCPicture.TabIndex = 5;
-            this.txtbxCCPicture.Text = "please find what to do to get a local file address..";
             // 
             // btnCCNext
             // 
@@ -237,17 +229,36 @@
             this.cmbCCT3.Size = new System.Drawing.Size(151, 28);
             this.cmbCCT3.TabIndex = 22;
             // 
+            // btnPickFile
+            // 
+            this.btnPickFile.Location = new System.Drawing.Point(12, 138);
+            this.btnPickFile.Name = "btnPickFile";
+            this.btnPickFile.Size = new System.Drawing.Size(134, 29);
+            this.btnPickFile.TabIndex = 23;
+            this.btnPickFile.Text = "Pick File";
+            this.btnPickFile.UseVisualStyleBackColor = true;
+            this.btnPickFile.Click += new System.EventHandler(this.btnPickFile_Click);
+            // 
             // Card_Creator_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(505, 432);
+            this.Controls.Add(this.btnPickFile);
+            this.Controls.Add(this.lblCCTags);
+            this.Controls.Add(this.txtbxCCQ1);
+            this.Controls.Add(this.lblCCQExplanation);
+            this.Controls.Add(this.lblCCQuestions);
+            this.Controls.Add(this.btnCCNext);
+            this.Controls.Add(this.lblCCPicture);
+            this.Controls.Add(this.txtbxDefinition);
+            this.Controls.Add(this.lblCCDefinition);
+            this.Controls.Add(this.txtbxCCTerm);
+            this.Controls.Add(this.lblCCTerm);
             this.Controls.Add(this.cmbCCT3);
             this.Controls.Add(this.cmbCCT2);
             this.Controls.Add(this.cmbCCT1);
-            this.Controls.Add(this.lblCCTags);
             this.Controls.Add(this.txtbxCCF5);
-            this.Controls.Add(this.txtbxCCF4);
             this.Controls.Add(this.txtbxCCF3);
             this.Controls.Add(this.txtbxCCF2);
             this.Controls.Add(this.txtbxCCF1);
@@ -255,16 +266,7 @@
             this.Controls.Add(this.lblCCFalse);
             this.Controls.Add(this.txtbxCCQ3);
             this.Controls.Add(this.txtbxCCQ2);
-            this.Controls.Add(this.txtbxCCQ1);
-            this.Controls.Add(this.lblCCQExplanation);
-            this.Controls.Add(this.lblCCQuestions);
-            this.Controls.Add(this.btnCCNext);
-            this.Controls.Add(this.txtbxCCPicture);
-            this.Controls.Add(this.lblCCPicture);
-            this.Controls.Add(this.txtbxDefinition);
-            this.Controls.Add(this.lblCCDefinition);
-            this.Controls.Add(this.txtbxCCTerm);
-            this.Controls.Add(this.lblCCTerm);
+            this.Controls.Add(this.txtbxCCF4);
             this.Name = "Card_Creator_UI";
             this.Text = "Card Creator";
             this.ResumeLayout(false);
@@ -279,7 +281,6 @@
         private Label lblCCDefinition;
         private TextBox txtbxDefinition;
         private Label lblCCPicture;
-        private TextBox txtbxCCPicture;
         private Button btnCCNext;
         private Label lblCCQuestions;
         private Label lblCCQExplanation;
@@ -297,5 +298,6 @@
         private ComboBox cmbCCT1;
         private ComboBox cmbCCT2;
         private ComboBox cmbCCT3;
+        private Button btnPickFile;
     }
 }

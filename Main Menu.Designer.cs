@@ -237,6 +237,7 @@
             this.btnGraph.TabIndex = 16;
             this.btnGraph.Text = "GRAPH TESTS";
             this.btnGraph.UseVisualStyleBackColor = true;
+            this.btnGraph.Click += new System.EventHandler(this.btnGraph_Click);
             // 
             // Main_Menu_UI
             // 

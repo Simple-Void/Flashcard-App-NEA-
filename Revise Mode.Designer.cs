@@ -33,6 +33,9 @@
             this.btnRMQuit = new System.Windows.Forms.Button();
             this.lblRMTimer = new System.Windows.Forms.Label();
             this.countUpComponent = new System.Windows.Forms.Timer(this.components);
+            this.pcbxCardPic = new System.Windows.Forms.PictureBox();
+            this.btnNextCard = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbxCardPic)).BeginInit();
             this.SuspendLayout();
             // 
             // btnRMFlashCard
@@ -47,7 +50,7 @@
             // 
             // btnRMQuit
             // 
-            this.btnRMQuit.Location = new System.Drawing.Point(648, 339);
+            this.btnRMQuit.Location = new System.Drawing.Point(648, 374);
             this.btnRMQuit.Name = "btnRMQuit";
             this.btnRMQuit.Size = new System.Drawing.Size(140, 93);
             this.btnRMQuit.TabIndex = 1;
@@ -64,16 +67,39 @@
             this.lblRMTimer.Text = "timer text";
             this.lblRMTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // pcbxCardPic
+            // 
+            this.pcbxCardPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pcbxCardPic.InitialImage = null;
+            this.pcbxCardPic.Location = new System.Drawing.Point(648, 228);
+            this.pcbxCardPic.Name = "pcbxCardPic";
+            this.pcbxCardPic.Size = new System.Drawing.Size(140, 140);
+            this.pcbxCardPic.TabIndex = 3;
+            this.pcbxCardPic.TabStop = false;
+            // 
+            // btnNextCard
+            // 
+            this.btnNextCard.Location = new System.Drawing.Point(12, 438);
+            this.btnNextCard.Name = "btnNextCard";
+            this.btnNextCard.Size = new System.Drawing.Size(630, 29);
+            this.btnNextCard.TabIndex = 4;
+            this.btnNextCard.Text = "Next Card";
+            this.btnNextCard.UseVisualStyleBackColor = true;
+            this.btnNextCard.Click += new System.EventHandler(this.btnNextCard_Click);
+            // 
             // Revise_Mode_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 439);
+            this.ClientSize = new System.Drawing.Size(800, 475);
+            this.Controls.Add(this.btnNextCard);
+            this.Controls.Add(this.pcbxCardPic);
             this.Controls.Add(this.lblRMTimer);
             this.Controls.Add(this.btnRMQuit);
             this.Controls.Add(this.btnRMFlashCard);
             this.Name = "Revise_Mode_UI";
             this.Text = "Revise";
+            ((System.ComponentModel.ISupportInitialize)(this.pcbxCardPic)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -84,5 +110,7 @@
         private Button btnRMQuit;
         private Label lblRMTimer;
         private System.Windows.Forms.Timer countUpComponent;
+        private PictureBox pcbxCardPic;
+        private Button btnNextCard;
     }
 }

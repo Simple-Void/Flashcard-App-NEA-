@@ -23,6 +23,8 @@ namespace NEA_Project_UI
         int[] panelHeight = new int[4];
         //next button position at different stages
         int[] nextPosition = new int[4];
+        //variable for image file directory, this is hard to access unless global
+        string imageFileAddress;
         public Card_Creator_UI(Dictionary<int, Flashcard> _cardsDictionary)
         {
             //
@@ -68,7 +70,7 @@ namespace NEA_Project_UI
             lblCCDefinition.Show();
             txtbxDefinition.Show();
             lblCCPicture.Show();
-            txtbxCCPicture.Show();
+            btnPickFile.Show();
             Point nextButtonLocation = new Point (12,(nextPosition[0]));
             btnCCNext.Location = nextButtonLocation;
         }
@@ -102,7 +104,7 @@ namespace NEA_Project_UI
                 lblCCDefinition.Hide();
                 txtbxDefinition.Hide();
                 lblCCPicture.Hide();
-                txtbxCCPicture.Hide();
+                btnPickFile.Hide();
 
                 //reveal new
                 lblCCQuestions.Show();
@@ -239,7 +241,7 @@ namespace NEA_Project_UI
             //read the values from textboxes
             returnValues[0] = txtbxCCTerm.Text;
             returnValues[1] = txtbxDefinition.Text;
-            returnValues[2] = txtbxCCPicture.Text;
+            returnValues[2] = imageFileAddress;
             returnValues[3] = txtbxCCQ1.Text;
             returnValues[4] = txtbxCCQ2.Text;
             returnValues[5] = txtbxCCQ3.Text;
@@ -254,9 +256,11 @@ namespace NEA_Project_UI
             return returnValues;
         }
 
+        
+
+
         //setup the comboboxes
         public string[] tagsArray;
-
         //fully functional
         public void setUpCMBBX()
         {
@@ -315,6 +319,27 @@ namespace NEA_Project_UI
                 (tempFlashcard.successRate[0]) + "#~#" + (tempFlashcard.successRate[1]) + "#~#";
             //appends the given value to the file
             await file.WriteLineAsync(textToWrite);
+        }
+
+        private void btnPickFile_Click(object sender, EventArgs e)
+        {
+            //open the file picker
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            //starts in the base c: drive
+            openFileDialog.InitialDirectory = "c:\\";
+            //ensures only image files can be chosen
+            openFileDialog.Filter = "Image files (*.png, *.jpeg, *.jpg)|*.png;*.jpeg;*.jpg";
+            //other assorted filtering
+            openFileDialog.FilterIndex = 0;
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.Multiselect = false;
+
+            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //the final stirng
+                imageFileAddress = openFileDialog.FileName;
+            }
         }
     }
 }

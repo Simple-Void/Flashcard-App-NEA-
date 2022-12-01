@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Quiz_Mode_UI));
             this.btnQMFlashCard = new System.Windows.Forms.Button();
             this.lblQMTimer = new System.Windows.Forms.Label();
             this.btnQMQuit = new System.Windows.Forms.Button();
@@ -36,6 +37,8 @@
             this.countUpComponent = new System.Windows.Forms.Timer(this.components);
             this.btnQMRight = new System.Windows.Forms.Button();
             this.btnQMWrong = new System.Windows.Forms.Button();
+            this.pcbxCardPic = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbxCardPic)).BeginInit();
             this.SuspendLayout();
             // 
             // btnQMFlashCard
@@ -100,11 +103,22 @@
             this.btnQMWrong.UseVisualStyleBackColor = true;
             this.btnQMWrong.Click += new System.EventHandler(this.btnQMWrong_Click);
             // 
+            // pcbxCardPic
+            // 
+            this.pcbxCardPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pcbxCardPic.InitialImage = ((System.Drawing.Image)(resources.GetObject("pcbxCardPic.InitialImage")));
+            this.pcbxCardPic.Location = new System.Drawing.Point(648, 228);
+            this.pcbxCardPic.Name = "pcbxCardPic";
+            this.pcbxCardPic.Size = new System.Drawing.Size(140, 140);
+            this.pcbxCardPic.TabIndex = 8;
+            this.pcbxCardPic.TabStop = false;
+            // 
             // Quiz_Mode_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 475);
+            this.Controls.Add(this.pcbxCardPic);
             this.Controls.Add(this.btnQMWrong);
             this.Controls.Add(this.btnQMRight);
             this.Controls.Add(this.lblQMCardCount);
@@ -113,6 +127,7 @@
             this.Controls.Add(this.btnQMFlashCard);
             this.Name = "Quiz_Mode_UI";
             this.Text = "Quiz";
+            ((System.ComponentModel.ISupportInitialize)(this.pcbxCardPic)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -126,5 +141,6 @@
         private System.Windows.Forms.Timer countUpComponent;
         private Button btnQMRight;
         private Button btnQMWrong;
+        private PictureBox pcbxCardPic;
     }
 }

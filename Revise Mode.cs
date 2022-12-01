@@ -17,6 +17,7 @@ namespace NEA_Project_UI
         static Dictionary<int, Flashcard> FlashcardsDictionary = new Dictionary<int, Flashcard>();
         string cardTerm = "Term";
         string cardDefinition = "Definition";
+        string cardImage = "";
         int totalCards;
         bool flashcardShowTerm = false;
         Queue<int> cardIDs = new Queue<int>();
@@ -57,6 +58,10 @@ namespace NEA_Project_UI
                 //disable the timer
                 countUpComponent.Enabled = false;
             }
+
+            //display the default image
+            pcbxCardPic.Image = Image.FromFile(@"D:\School Work\Computing\NEA\Default.png");
+            pcbxCardPic.SizeMode = PictureBoxSizeMode.StretchImage;
             nextCard();
             flashcardShowTerm = true;
             flipCard();
@@ -143,6 +148,15 @@ namespace NEA_Project_UI
             //takes the next item from the queue, displays and moves to back of queue
             cardTerm = FlashcardsDictionary[cardIDs.Peek()].term;
             cardDefinition = FlashcardsDictionary[cardIDs.Peek()].definition;
+            //set card image and check if it exists before displaying
+            cardImage = FlashcardsDictionary[cardIDs.Peek()].pictureLocation;
+            if (File.Exists(cardImage))
+            {
+                pcbxCardPic.Image = Image.FromFile(@cardImage);
+            } else
+            {
+                pcbxCardPic.Image = Image.FromFile(@"D:\School Work\Computing\NEA\Default.png");
+            }
             cardIDs.Enqueue(cardIDs.Dequeue());
             flashcardShowTerm = true;
             flipCard();
@@ -165,6 +179,11 @@ namespace NEA_Project_UI
                 //swap the bool val
                 flashcardShowTerm = true;
             }
+        }
+
+        private void btnNextCard_Click(object sender, EventArgs e)
+        {
+            nextCard();
         }
     }
 }

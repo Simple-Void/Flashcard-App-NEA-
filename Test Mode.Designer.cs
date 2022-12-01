@@ -38,6 +38,8 @@
             this.btnTMSubmit = new System.Windows.Forms.Button();
             this.btnTMQuit = new System.Windows.Forms.Button();
             this.countUpComponent = new System.Windows.Forms.Timer(this.components);
+            this.pcbxCardPic = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pcbxCardPic)).BeginInit();
             this.SuspendLayout();
             // 
             // lblTMQuestion
@@ -113,7 +115,7 @@
             // 
             // btnTMQuit
             // 
-            this.btnTMQuit.Location = new System.Drawing.Point(490, 157);
+            this.btnTMQuit.Location = new System.Drawing.Point(489, 157);
             this.btnTMQuit.Name = "btnTMQuit";
             this.btnTMQuit.Size = new System.Drawing.Size(156, 93);
             this.btnTMQuit.TabIndex = 8;
@@ -125,11 +127,22 @@
             // 
             this.countUpComponent.Tick += new System.EventHandler(this.countUpComponent_Tick);
             // 
+            // pcbxCardPic
+            // 
+            this.pcbxCardPic.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pcbxCardPic.InitialImage = null;
+            this.pcbxCardPic.Location = new System.Drawing.Point(510, 37);
+            this.pcbxCardPic.Name = "pcbxCardPic";
+            this.pcbxCardPic.Size = new System.Drawing.Size(115, 115);
+            this.pcbxCardPic.TabIndex = 9;
+            this.pcbxCardPic.TabStop = false;
+            // 
             // Test_Mode_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(658, 261);
+            this.Controls.Add(this.pcbxCardPic);
             this.Controls.Add(this.btnTMQuit);
             this.Controls.Add(this.btnTMSubmit);
             this.Controls.Add(this.rdbtnTMQ4);
@@ -140,6 +153,7 @@
             this.Controls.Add(this.lblTMQuestion);
             this.Name = "Test_Mode_UI";
             this.Text = "Test";
+            ((System.ComponentModel.ISupportInitialize)(this.pcbxCardPic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,5 +170,6 @@
         private Button btnTMSubmit;
         private Button btnTMQuit;
         private System.Windows.Forms.Timer countUpComponent;
+        private PictureBox pcbxCardPic;
     }
 }

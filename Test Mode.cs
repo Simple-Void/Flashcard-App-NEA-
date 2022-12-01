@@ -20,12 +20,13 @@ namespace NEA_Project_UI
         string[] cardFA = new string[5];
         int totalCards;
         int cardIndex = -1;
+        string cardImage = "";
         int[] correctCards = new int[2];
         //you did this daniel jennings :)
         Queue<int> cardIDs = new Queue<int>();
         int correctPlacement = 0;
         string textToWrite = "";
-        bool publicOrClass = false;
+        bool personalOrClass = false;
 
         int totalTimeInSecs = (60 * 3);
 
@@ -37,16 +38,35 @@ namespace NEA_Project_UI
             selectedSet = setToUse;
             //set the max cards to the number of cards in the set to avoid overflow
             totalCards = selectedSet.cards.Count();
+            //create the array of the values
+            int[] cardsArray = setToUse.cards;
+            Random random = new Random();
+            int loc1;
+            int loc2;
+            int tempID;
+            for (int c = 0; c < totalCards; c++)
+            {
+                loc1 = random.Next(0, totalCards);
+                tempID = cardsArray[loc1];
+                loc2 = random.Next(0, totalCards);
+                cardsArray[loc1] = cardsArray[loc2];
+                cardsArray[loc2] = tempID;
+            }
             //set up the queue for the card IDs
             for (int c = 0; c < totalCards; c++)
             {
-                cardIDs.Enqueue(selectedSet.cards[c]);
+                cardIDs.Enqueue(cardsArray[c]);
             }
 
             InitializeComponent();
 
+            //display the default image
+            pcbxCardPic.Image = Image.FromFile(@"D:\School Work\Computing\NEA\Default.png");
+            pcbxCardPic.SizeMode = PictureBoxSizeMode.StretchImage;
+
             //classorpersonal
-            publicOrClass = _classOrPersonal;
+            //false means personal
+            personalOrClass = _classOrPersonal;
 
             //is the timer enabled?
             if (enableTimer == true)
@@ -113,7 +133,7 @@ namespace NEA_Project_UI
             }
 
             //changes the correct / incorrect ratio if it's a personal test
-            if (publicOrClass == false)
+            if (personalOrClass == false)
             {
                 //personal test, edit data
                 editSucRate(correct, cardIDs.Peek());
@@ -148,6 +168,15 @@ namespace NEA_Project_UI
             {
                 //set is over, go home
                 MessageBox.Show($"You completed the set! You got {correctCards[0]} card(s) right and {correctCards[1]} card(s) wrong.", "Congratulations!");
+                //if personal flush the cards
+                if (personalOrClass == false)
+                {
+                    flushAllCards();
+                } else
+                {
+                    //otherwise we write as a class test file
+                    writeClassSuccessRate(false, correctCards[0], correctCards[1]);
+                }
                 this.Close();
             }
             else
@@ -155,6 +184,16 @@ namespace NEA_Project_UI
                 //takes the next item from the queue cardIDs.Dequeue()
                 cardQuestion = FlashcardsDictionary[cardIDs.Peek()].questions[rnd.Next(1,3)];
                 cardAnswer = FlashcardsDictionary[cardIDs.Peek()].term;
+                //set card image and check if it exists before displaying
+                cardImage = FlashcardsDictionary[cardIDs.Peek()].pictureLocation;
+                if (File.Exists(cardImage))
+                {
+                    pcbxCardPic.Image = Image.FromFile(@cardImage);
+                }
+                else
+                {
+                    pcbxCardPic.Image = Image.FromFile(@"D:\School Work\Computing\NEA\Default.png");
+                }
                 //random false answers
                 List<int> chosenNums = new List<int>();
                 int foundNums = 0;
@@ -219,6 +258,33 @@ namespace NEA_Project_UI
             }
         }
 
+        private async Task flushAllCards()
+        {
+            //set the address to a constant to make it a bit easier to edit :)
+            string fileAddress = @"C:\Users\Public\FlashcardAppData\Flashcards.txt";
+
+            //clear the file
+            File.WriteAllText(fileAddress, String.Empty);
+
+            foreach (KeyValuePair<int, Flashcard> entry in FlashcardsDictionary)
+            {
+                //create a flashcard object with the data temporarily
+                Flashcard tempFlashcard = FlashcardsDictionary[entry.Key];
+
+                //sets the file to append and states the file to append to
+                using StreamWriter file = new(fileAddress, append: true);
+                //formats the data appropriately for the file
+                string textToWrite = (tempFlashcard.ID).ToString() + "#~#" + (tempFlashcard.term) + "#~#" + (tempFlashcard.definition)
+                    + "#~#" + (tempFlashcard.pictureLocation) + "#~#" + (tempFlashcard.questions[0]) + "#~#" + (tempFlashcard.questions[1]) +
+                    "#~#" + (tempFlashcard.questions[2]) + "#~#" + (tempFlashcard.falseAnswers[0]) + "#~#" + (tempFlashcard.falseAnswers[1]) +
+                    "#~#" + (tempFlashcard.falseAnswers[2]) + "#~#" + (tempFlashcard.falseAnswers[3]) + "#~#" + (tempFlashcard.falseAnswers[4]) +
+                    "#~#" + (tempFlashcard.tags[0]) + "#~#" + (tempFlashcard.tags[1]) + "#~#" + (tempFlashcard.tags[2]) + "#~#" +
+                    (tempFlashcard.successRate[0]) + "#~#" + (tempFlashcard.successRate[1]) + "#~#";
+                //appends the given value to the file
+                await file.WriteLineAsync(textToWrite);
+            }
+        }
+
         //fully functional
         private void countUpComponent_Tick(object sender, EventArgs e)
         {
@@ -229,6 +295,15 @@ namespace NEA_Project_UI
             {
                 countUpComponent.Stop();
                 MessageBox.Show("your time is up!");
+                //if personal flush the cards
+                if (personalOrClass == false)
+                {
+                    flushAllCards();
+                } else
+                {
+                    //write as a class test file
+                    writeClassSuccessRate(false, correctCards[0], correctCards[1]);
+                }
                 this.Close();
             }
             else
@@ -274,6 +349,51 @@ namespace NEA_Project_UI
                     timerTextSecs = $"{timerSeconds}";
                 }
                 lblTMTimer.Text = $"{timerTextMins}:{timerTextSecs}";
+            }
+        }
+
+        private void writeClassSuccessRate(bool _timeOut, int _correct, int _incorrect)
+        {
+            bool valid = true;
+            bool writeFile = true;
+            string fileName = "";
+            //timeOut determines if the class ran out of time or not
+            //successRate is the success rate
+            //writes the class success rate
+            do
+            {
+                //creates the file the user requested
+                fileName = @"C:\Users\Public\FlashcardAppData\" + 
+                    Microsoft.VisualBasic.Interaction.InputBox("Please enter the file name for this test", 
+                    "Input File Name", "Class_Test") + ".txt";
+                if (File.Exists(fileName))
+                {
+                    //if the file exists and the user does not want to overwrite then loop
+                    //otherwise permit the action
+                    if (MessageBox.Show("Would you like to overwrite the existing file?",
+                    "File Already Exists", MessageBoxButtons.YesNo) == DialogResult.No)
+                    {
+                        writeFile = false;
+                        valid = false;
+                    }
+                }
+            } while (valid == false);
+
+            if (writeFile == true)
+            {
+                using (StreamWriter w = File.AppendText(fileName));
+                //clear the file
+                File.WriteAllText(fileName, String.Empty);
+                //add the data to the file
+                using StreamWriter file = new(fileName, append: true);
+                //finish condition
+                file.WriteLine(_timeOut.ToString());
+                //right
+                file.WriteLine(_correct.ToString());
+                //wrong
+                file.WriteLine(_incorrect.ToString());
+                file.Close();
+                valid = true;
             }
         }
     }
