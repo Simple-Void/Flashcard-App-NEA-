@@ -8,6 +8,7 @@ namespace NEA_Project_UI
 {
     static class Global
     {
+        //change this back
         private static bool _teacherLoggedIn = false;
         public static bool teacherLoggedIn
         {
@@ -67,6 +68,25 @@ namespace NEA_Project_UI
             this.resources = resources;
             this.tags = tags;
             this.cards = cards;
+        }
+    }
+
+    //create the object type of set
+    public class TestData
+    {
+        //all variables it will need
+        //true if out of time
+        public bool outOfTime;
+        public int correct;
+        public int incorrect;
+
+        //object creator
+        //reference to make a set
+        public TestData(bool outOfTime, int correct, int incorrect)
+        {
+            this.outOfTime = outOfTime;
+            this.correct = correct;
+            this.incorrect = incorrect;
         }
     }
 }

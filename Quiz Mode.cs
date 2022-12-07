@@ -20,7 +20,7 @@ namespace NEA_Project_UI
         int totalCards;
         int cardIndex = -1;
         string cardImage = "";
-        //YOU DID THIS DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG NATWEST DEBIT CARD
+        //YOU DID THIS DANIEL JENNINGS 29/12/2004 18 Booth Road OX16 1EG
         int[] correctCards = new int[2];
         //you did this daniel jennings :)
         Queue<int> cardIDs = new Queue<int>();
