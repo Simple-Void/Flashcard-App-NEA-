@@ -49,6 +49,7 @@
             this.btnLogOut = new System.Windows.Forms.Button();
             this.btnClassTest = new System.Windows.Forms.Button();
             this.btnGraph = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCrtCrd
@@ -75,18 +76,19 @@
             // 
             this.txtbxMMSearch.Location = new System.Drawing.Point(9, 12);
             this.txtbxMMSearch.Name = "txtbxMMSearch";
-            this.txtbxMMSearch.Size = new System.Drawing.Size(320, 27);
+            this.txtbxMMSearch.Size = new System.Drawing.Size(192, 27);
             this.txtbxMMSearch.TabIndex = 2;
             this.txtbxMMSearch.Text = "Search..";
             // 
             // btnMMSearch
             // 
-            this.btnMMSearch.Location = new System.Drawing.Point(335, 10);
+            this.btnMMSearch.Location = new System.Drawing.Point(207, 11);
             this.btnMMSearch.Name = "btnMMSearch";
-            this.btnMMSearch.Size = new System.Drawing.Size(29, 29);
+            this.btnMMSearch.Size = new System.Drawing.Size(78, 29);
             this.btnMMSearch.TabIndex = 3;
-            this.btnMMSearch.Text = "S";
+            this.btnMMSearch.Text = "SEARCH";
             this.btnMMSearch.UseVisualStyleBackColor = true;
+            this.btnMMSearch.Click += new System.EventHandler(this.btnMMSearch_Click);
             // 
             // btnRev
             // 
@@ -148,7 +150,7 @@
             this.lstvwSets.Location = new System.Drawing.Point(9, 45);
             this.lstvwSets.MultiSelect = false;
             this.lstvwSets.Name = "lstvwSets";
-            this.lstvwSets.Size = new System.Drawing.Size(320, 596);
+            this.lstvwSets.Size = new System.Drawing.Size(355, 596);
             this.lstvwSets.TabIndex = 11;
             this.lstvwSets.UseCompatibleStateImageBehavior = false;
             this.lstvwSets.View = System.Windows.Forms.View.Details;
@@ -179,7 +181,7 @@
             this.lstvwCards.Location = new System.Drawing.Point(370, 12);
             this.lstvwCards.MultiSelect = false;
             this.lstvwCards.Name = "lstvwCards";
-            this.lstvwCards.Size = new System.Drawing.Size(320, 631);
+            this.lstvwCards.Size = new System.Drawing.Size(320, 629);
             this.lstvwCards.TabIndex = 12;
             this.lstvwCards.UseCompatibleStateImageBehavior = false;
             this.lstvwCards.View = System.Windows.Forms.View.Details;
@@ -239,11 +241,22 @@
             this.btnGraph.UseVisualStyleBackColor = true;
             this.btnGraph.Click += new System.EventHandler(this.btnGraph_Click);
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(291, 10);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(73, 29);
+            this.btnClear.TabIndex = 17;
+            this.btnClear.Text = "CLEAR";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // Main_Menu_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(889, 653);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnGraph);
             this.Controls.Add(this.btnClassTest);
             this.Controls.Add(this.btnLogOut);
@@ -290,5 +303,6 @@
         private Button btnLogOut;
         private Button btnClassTest;
         private Button btnGraph;
+        private Button btnClear;
     }
 }

@@ -44,6 +44,7 @@
             this.cmbbxSCT1 = new System.Windows.Forms.ComboBox();
             this.cmbbxSCT3 = new System.Windows.Forms.ComboBox();
             this.cmbbxSCT2 = new System.Windows.Forms.ComboBox();
+            this.btnClear = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblSCName
@@ -101,17 +102,18 @@
             // 
             this.txtbxSCSearch.Location = new System.Drawing.Point(11, 32);
             this.txtbxSCSearch.Name = "txtbxSCSearch";
-            this.txtbxSCSearch.Size = new System.Drawing.Size(447, 27);
+            this.txtbxSCSearch.Size = new System.Drawing.Size(324, 27);
             this.txtbxSCSearch.TabIndex = 6;
             // 
             // btnSCSearch
             // 
-            this.btnSCSearch.Location = new System.Drawing.Point(464, 30);
+            this.btnSCSearch.Location = new System.Drawing.Point(341, 30);
             this.btnSCSearch.Name = "btnSCSearch";
-            this.btnSCSearch.Size = new System.Drawing.Size(29, 29);
+            this.btnSCSearch.Size = new System.Drawing.Size(79, 29);
             this.btnSCSearch.TabIndex = 7;
-            this.btnSCSearch.Text = "S";
+            this.btnSCSearch.Text = "SEARCH";
             this.btnSCSearch.UseVisualStyleBackColor = true;
+            this.btnSCSearch.Click += new System.EventHandler(this.btnSCSearch_Click);
             // 
             // lstVCards
             // 
@@ -175,11 +177,22 @@
             this.cmbbxSCT2.Size = new System.Drawing.Size(151, 28);
             this.cmbbxSCT2.TabIndex = 23;
             // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(426, 30);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(67, 29);
+            this.btnClear.TabIndex = 24;
+            this.btnClear.Text = "CLEAR";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
             // Set_Creator_UI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(505, 104);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.cmbbxSCT2);
             this.Controls.Add(this.cmbbxSCT3);
             this.Controls.Add(this.cmbbxSCT1);
@@ -218,5 +231,6 @@
         private ComboBox cmbbxSCT1;
         private ComboBox cmbbxSCT3;
         private ComboBox cmbbxSCT2;
+        private Button btnClear;
     }
 }

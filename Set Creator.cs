@@ -46,6 +46,7 @@ namespace NEA_Project_UI
             cmbbxSCT1.Hide();
             cmbbxSCT2.Hide();
             cmbbxSCT3.Hide();
+            btnClear.Hide();
 
             //setup
             lblSCName.Show();
@@ -91,6 +92,7 @@ namespace NEA_Project_UI
                 txtbxSCSearch.Show();
                 btnSCSearch.Show();
                 lstVCards.Show();
+                btnClear.Show();
             }
 
             if (setCreationStage ==2)
@@ -99,6 +101,7 @@ namespace NEA_Project_UI
                 lblSCCards.Hide();
                 txtbxSCSearch.Hide();
                 btnSCSearch.Hide();
+                btnClear.Hide();
                 lstVCards.Hide();
 
                 //reveal new
@@ -284,6 +287,68 @@ namespace NEA_Project_UI
             {
                 cmbbxSCT3.Items.Add(tagsArray[c]);
             }
+        }
+
+        private void btnSCSearch_Click(object sender, EventArgs e)
+        {
+            //get input term
+            string searchTerm = txtbxSCSearch.Text;
+            int indexVal = 0;
+            bool isTag = false;
+            List<int> foundSetIDs = new List<int>();
+            //get all the potential tags and as such their reference codes
+            //reads in all the tags as lines of an array
+            string fileAddress = @"C:\Users\Public\FlashcardAppData\Tags.txt";
+            List<string> tagsArray = System.IO.File.ReadAllLines(fileAddress).ToList();
+
+            //check if the search term is a tag
+            if (tagsArray.Contains(searchTerm))
+            {
+                indexVal = tagsArray.FindIndex(a => a.Contains(searchTerm));
+                isTag = true;
+            }
+
+            //check the sets
+            //index through the hashtable
+            for (int c = 0; c <= FlashcardsDictionary.Count() - 1; c++)
+            {
+                //does any of the data in the set match?
+                Flashcard tempCard = FlashcardsDictionary[c];
+                if ((tempCard.ID).ToString() == searchTerm || tempCard.term == searchTerm
+                    || tempCard.definition == searchTerm || (tempCard.pictureLocation) == searchTerm 
+                    || (tempCard.questions).Contains(searchTerm) || (tempCard.falseAnswers).Contains(searchTerm))
+                {
+                    foundSetIDs.Add(c);
+                }
+                //if the term is a tag too
+                if (isTag == true)
+                {
+                    if ((tempCard.tags).Contains(indexVal))
+                    {
+                        foundSetIDs.Add(c);
+                    }
+                }
+                //if any of these conditions are met, add to a list
+            }
+
+            //display the sets in the list
+            lstVCards.Items.Clear();
+            for (int i = 0; i < foundSetIDs.Count(); i++)
+            {
+                //this creates a row of data as a variable before writing to the listview
+                //it just makes it easier for me to read honestly
+                string[] rowData = { (FlashcardsDictionary[foundSetIDs[i]].ID).ToString(),
+                    FlashcardsDictionary[foundSetIDs[i]].term, FlashcardsDictionary[foundSetIDs[i]].definition};
+                var lstvwItem = new ListViewItem(rowData);
+                lstVCards.Items.Add(lstvwItem);
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            lstVCards.Items.Clear();
+            displayCardsInUI();
+            txtbxSCSearch.Text = "";
         }
     }
 }

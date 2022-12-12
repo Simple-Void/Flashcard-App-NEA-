@@ -15,7 +15,6 @@ namespace NEA_Project_UI
         public Main_Menu_UI()
         {
             InitializeComponent();
-            btnMMSearch.Enabled = false;
             //takes the flashcards into the dictionary for proper handling
             readFileToCardsDictionary();
             //write the sets and flashcards within that set to the UI elements
@@ -482,6 +481,66 @@ namespace NEA_Project_UI
         {
             Global.teacherLoggedIn= false;
             showDefaultLoginStatus();
+        }
+
+        private void btnMMSearch_Click(object sender, EventArgs e)
+        {
+            //get input term
+            string searchTerm = txtbxMMSearch.Text;
+            int indexVal = 0;
+            bool isTag = false;
+            List<int> foundSetIDs = new List<int>();
+            //get all the potential tags and as such their reference codes
+            //reads in all the tags as lines of an array
+            string fileAddress = @"C:\Users\Public\FlashcardAppData\Tags.txt";
+            List<string> tagsArray = System.IO.File.ReadAllLines(fileAddress).ToList();
+            
+            //check if the search term is a tag
+            if (tagsArray.Contains(searchTerm))
+            {
+                indexVal = tagsArray.FindIndex(a => a.Contains(searchTerm));
+                isTag = true;
+            }
+
+            //check the sets
+            //index through the hashtable
+            for (int c = 0; c <= SetsDictionary.Count()-1; c++)
+            {
+                //does any of the data in the set match?
+                Set tempSet = SetsDictionary[c];
+                if ((tempSet.ID).ToString() == searchTerm || tempSet.name == searchTerm 
+                    || tempSet.resources == searchTerm || (tempSet.cards).ToString().Contains(searchTerm))
+                {
+                    foundSetIDs.Add(c);
+                }
+                //if the term is a tag too
+                if (isTag == true)
+                {
+                    if ((tempSet.tags).Contains(indexVal))
+                    {
+                        foundSetIDs.Add(c);
+                    }
+                }
+                //if any of these conditions are met, add to a list
+            }
+
+            //display the sets in the list
+            lstvwSets.Items.Clear();
+            for (int i = 0; i < foundSetIDs.Count(); i++)
+            {
+                //this creates a row of data as a variable before writing to the listview
+                //it just makes it easier for me to read honestly
+                string[] rowData = { (SetsDictionary[foundSetIDs[i]].ID).ToString(),
+                    SetsDictionary[foundSetIDs[i]].name, SetsDictionary[foundSetIDs[i]].resources };
+                var lstvwItem = new ListViewItem(rowData);
+                lstvwSets.Items.Add(lstvwItem);
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            displayAllSets();
+            txtbxMMSearch.Clear();
         }
     }
 }
